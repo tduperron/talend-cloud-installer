@@ -10,6 +10,10 @@ describe 'role::test' do
     it { should be_installed }
   end
 
+  describe package('talend-cloud-verifier') do
+    it { should be_installed }
+  end
+
   describe package('zip') do
     it { should be_installed }
   end

@@ -3,6 +3,7 @@
 #
 class role::test {
 
+  require ::profile::java
   require ::profile::base
   require ::profile::docker::host
   require ::profile::docker::registry

@@ -3,6 +3,8 @@
 common_packages:
   'ipaas-rt-integration-test':
     ensure: 'latest'
+  'talend-cloud-verifier':
+    ensure: 'latest'
   'zip':
     ensure: 'present'
 
