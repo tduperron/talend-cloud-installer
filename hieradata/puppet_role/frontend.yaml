@@ -20,7 +20,6 @@ tic::frontend::sts_host: '%{::syncope_nodes}'
 tic::frontend::sts_username: 'admin'
 tic::frontend::sts_password: "%{::master_password}"
 tic::frontend::elasticache_address: "%{::memcache_nodes}"
-tic::frontend::workspace_url: "/ipaas/services"
 
 tic::frontend::elasticsearch_host: "%{::elasticsearch_nodes}"
 tic::frontend::elasticsearch_port: "9200"
@@ -29,6 +28,8 @@ tic::frontend20::scim_service_url: "%{::tpsvc_iam_scim_back_url}"
 tic::frontend20::crypto_service_url: "%{::tpsvc_crypto_url}"
 tic::frontend20::iam_oidc_front_url: "%{::tpsvc_iam_oidc_front_url}"
 tic::frontend20::iam_oidc_back_url: "%{::tpsvc_iam_oidc_back_url}"
+tic::frontend20::workspace_url: "/ipaas/services"
+tic::frontend18::workspace_url: "/ipaas-server/services"
 
 tic::frontend::account_manager_nodes: "%{::tic_services_internal_nodes}"
 tic::frontend::artifact_manager_nodes: "%{::tic_services_internal_nodes}"
