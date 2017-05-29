@@ -111,6 +111,7 @@ tic::services::tipaas_email_subject: "Confirmation Required for Talend Integrati
 tic::services20::scim_service_url: "%{::tpsvc_iam_scim_back_url}"
 tic::services20::iam_service_url: "%{::tpsvc_iam_server_front_url}"
 tic::services20::crypto_service_url: "%{::tpsvc_crypto_url}"
+tic::services20::config_service_url: "%{::tpsvc_config_url}"
 
 tic::services::notification_subscription_memcached_host: "%{::memcache_nodes}"
 
