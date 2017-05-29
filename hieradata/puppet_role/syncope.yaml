@@ -19,6 +19,8 @@ profile::postgresql::roles:
       - /var/tmp/sql/syncope.sql
 
 cloudwatchlog_files:
+  "/talend/tic/%{::main_stack}/%{::puppet_role}/opt/tomcat/logs/activemq-security-service.log":
+    path: '/opt/tomcat/logs/activemq-security-service.log'
   "/talend/tic/%{::main_stack}/%{::puppet_role}/opt/tomcat/logs/catalina.out":
     path: '/opt/tomcat/logs/catalina.out'
   "/talend/tic/%{::main_stack}/%{::puppet_role}/opt/tomcat/logs/sts.out":
