@@ -187,3 +187,4 @@ tic::services::karaf_features_install:
 tic::services20::karaf_features_install:
   - 'tipaas-account-manager-service'
   - 'tipaas-tpsvc-crypto-client'
+  - 'tpsvc-config-client'
