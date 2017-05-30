@@ -1,5 +1,5 @@
 #
-# Configures cloudwaatch with hiera-defined log files
+# Configures cloudwatch with hiera-defined log files
 #
 class profile::common::cloudwatchlogs (
 
