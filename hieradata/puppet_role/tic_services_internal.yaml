@@ -124,6 +124,7 @@ tic::services::kms_key_alias: "%{::kms_key_alias}"
 cloudwatchlog_files:
   "/talend/tic/%{::main_stack}/%{::puppet_role}/opt/talend/ipaas/rt-infra/data/log/karaf.log":
     path: '/opt/talend/ipaas/rt-infra/data/log/karaf.log'
+    datetime_format: '%Y-%m-%dT%H:%M:%S'
 
 tic::services::karaf_features_install:
   - '(aries-blueprint'
