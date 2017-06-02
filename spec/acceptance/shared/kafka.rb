@@ -78,4 +78,22 @@ shared_examples 'profile::kafka' do
     it { should include 'container-manager' }
     it { should include 'container-events' }
   end
+
+  #Verifying topic usability
+  describe "Sending test message to tpsvclogs" do
+    subject { command('echo "this is a very bad test message" | /opt/kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic tpsvclogs').exit_status }
+    it { should eq 0 }
+  end
+
+  describe "Getting test message" do
+     subject { command('timeout --preserve-status 2s /opt/kafka/bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic tpsvclogs --from-beginning') }
+     its(:exit_status) { should eq 143 }
+     its(:stdout) { should include "this is a very bad test message" }
+  end
+
+  describe "Verifying no DEBUG messages in /var/log/messages" do
+    subject { command('grep " kafka: " /var/log/messages').stdout }
+    it { should_not include ' DEBUG ' }
+  end
+
 end
