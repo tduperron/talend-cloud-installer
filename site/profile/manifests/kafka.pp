@@ -15,7 +15,7 @@ class profile::kafka (
   $kafka_topics_default_replication = 1,
   $kafka_topics_default_partitions = 1,
   $log_retention_days = 31,
-  $log_level = 'WARNING'
+  $log_level = 'WARN'
 ) {
 
   require ::profile::common::packages
