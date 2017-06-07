@@ -31,7 +31,7 @@ class profile::kafka (
   if empty($zookeeper_nodes){
     $zookeeper_connect = "127.0.0.1:2181${zookeeper_kafkapath}"
   } else {
-    $zookeeper_connect = suffix(split(regsubst($zookeeper_nodes, '[\s\[\]\"]', '', 'G'), ','), ":2181${zookeeper_kafkapath}")
+    $zookeeper_connect = join(suffix(split(regsubst($zookeeper_nodes, '[\s\[\]\"]', '', 'G'), ','), ":2181${zookeeper_kafkapath}"), ',')
   }
 
   $_kafka_broker_config = {
