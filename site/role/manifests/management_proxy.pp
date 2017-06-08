@@ -17,10 +17,10 @@ class role::management_proxy(
 
   $create_resolvers_command = 'echo resolver \
   $(awk \'BEGIN{ORS=" "} $1=="nameserver" {print $2}\' /etc/resolv.conf) "valid=5s;" \
-  > /etc/nginx/resolvers.conf'
+  > /etc/nginx-resolvers.conf'
   exec { 'create nginx resolvers.conf':
     command => $create_resolvers_command,
-    creates => '/etc/nginx/resolvers.conf',
+    creates => '/etc/nginx-resolvers.conf',
     before  => Nginx::Resource::Vhost['es-sys'],
   }
 
@@ -55,7 +55,7 @@ class role::management_proxy(
     proxy                => '$proxy_url',
     location_raw_append  => ['proxy_pass_request_headers off;'],
     location_raw_prepend => [
-      'include /etc/nginx/resolvers.conf;',
+      'include /etc/nginx-resolvers.conf;',
       "set \$proxy_url ${elasticsearch_url};"
     ],
   }
