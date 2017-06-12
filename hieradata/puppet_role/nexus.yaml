@@ -29,7 +29,7 @@ cloudwatchlog_files:
     path: '/srv/sonatype-work/nexus/logs/request.log'
 
 cloudwatch::metrics:
-  DiskSpace:
+  DiskSpaceNexus:
     type              : diskspace
     params            : '-f /srv'
     unit              : Percent
