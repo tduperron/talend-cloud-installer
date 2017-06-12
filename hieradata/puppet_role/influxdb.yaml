@@ -15,7 +15,7 @@ logrotate::rules:
     compress: true
 
 cloudwatch::metrics:
-  DiskSpace:
+  DiskSpaceInfluxDB:
     type              : diskspace
     params            : '-f /var/lib/influxdb'
     unit              : Percent
