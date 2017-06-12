@@ -77,4 +77,9 @@ shared_examples 'profile::mongodb' do
     end
   end
 
+  describe 'Cloudwatch MongoDB specific' do
+     subject { file('/opt/cloudwatch-agent/metrics.yaml').content }
+     it { should include '    DiskSpaceMongoDB:' }
+  end
+
 end
