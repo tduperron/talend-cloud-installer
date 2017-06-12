@@ -52,6 +52,11 @@ shared_examples 'profile::kafka' do
     it { should include '-delete' }
   end
 
+  describe 'Cloudwatch Kafka specific' do
+     subject { file('/opt/cloudwatch-agent/metrics.yaml').content }
+     it { should include '    DiskSpaceKafka:' }
+  end
+
    begin
      Facter.zookeeper_nodes
    rescue
