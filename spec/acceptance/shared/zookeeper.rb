@@ -3,7 +3,7 @@ shared_examples 'profile::zookeeper' do
   it_behaves_like 'profile::defined', 'zookeeper'
   it_behaves_like 'profile::common::packagecloud_repos'
   it_behaves_like 'profile::common::cloudwatchlog_files', %w(
-    /opt/tomcat/logs/catalina.out
+    /opt/apache-tomcat/logs/catalina.out
   )
 
   describe port(2181) do
@@ -22,6 +22,11 @@ shared_examples 'profile::zookeeper' do
     it { should_not exist }
   end
 
+  describe file('/home/tomcat') do
+    it { should be_directory }
+    it { should be_owned_by 'tomcat' }
+  end
+
   describe file('/etc/init.d/zookeeper') do
     it { should_not exist }
   end
@@ -34,6 +39,11 @@ shared_examples 'profile::zookeeper' do
     its(:stdout) { should include '"clientPort":2181' }
     its(:stdout) { should include '"connectPort":2888' }
     its(:stdout) { should include '"electionPort":3888' }
+  end
+
+  # https://zookeeper.apache.org/doc/r3.1.2/zookeeperAdmin.html#sc_monitoring
+  describe command('echo ruok | /bin/nc 127.0.0.1 2181') do
+    its(:stdout) { should eq 'imok' }
   end
 
 end
