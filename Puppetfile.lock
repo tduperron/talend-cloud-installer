@@ -109,7 +109,7 @@ GITHUBTARBALL
 GITHUBTARBALL
   remote: Talend/puppet-cloudwatch
   specs:
-    talend-cloudwatch (0.1.0.25)
+    talend-cloudwatch (0.1.0.26)
 
 GITHUBTARBALL
   remote: Talend/puppet-cloudwatchlogs

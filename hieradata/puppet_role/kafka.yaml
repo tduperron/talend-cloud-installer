@@ -18,7 +18,7 @@ cloudwatchlog_files:
 
 
 cloudwatch::metrics:
-  DiskSpace:
+  DiskSpaceKafka:
     type              : diskspace
     params            : '-f /var/lib/kafka'
     unit              : Percent

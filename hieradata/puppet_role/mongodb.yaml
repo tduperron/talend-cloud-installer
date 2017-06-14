@@ -79,7 +79,7 @@ logrotate::rules:
     compress: true
 
 cloudwatch::metrics:
-  DiskSpace:
+  DiskSpaceMongoDB:
     type              : diskspace
     params            : '-f /var/lib/mongo'
     unit              : Percent
