@@ -23,5 +23,7 @@ cloudwatchlog_files:
     path: '/opt/tomcat/logs/activemq-security-service.log'
   "/talend/tic/%{::main_stack}/%{::puppet_role}/opt/tomcat/logs/catalina.out":
     path: '/opt/tomcat/logs/catalina.out'
+    datetime_format: '%d-%b-%Y %H:%M:%S'
   "/talend/tic/%{::main_stack}/%{::puppet_role}/opt/tomcat/logs/sts.out":
     path: '/opt/tomcat/logs/sts.out'
+    datetime_format: '%Y-%m-%d %H:%M:%S'
