@@ -40,6 +40,7 @@ class profile::kafka (
     'log.dir'                       => $kafka_datapath,
     'log.dirs'                      => $kafka_datapath,
     'inter.broker.protocol.version' => $kafka_protocol_version,
+    'advertised.host.name'          => $::ipaddress,
     'auto.create.topics.enable'     => false
   }
 
