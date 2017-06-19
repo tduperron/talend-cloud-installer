@@ -177,9 +177,6 @@ tic::services::karaf_features_install:
   - 'tipaas-notification-manager'
   - 'tipaas-notification-server'
   - 'tipaas-notification-sendgrid-webhook-service'
-  - 'tesb-el-collector-jms'
-  - 'tesb-el-elasticsearch'
-  - 'tesb-el-server'
   - 'tipaas-crypto-service-core'
   - 'tipaas-logs-transfer-service-client'
 

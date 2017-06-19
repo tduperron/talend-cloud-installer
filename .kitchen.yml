@@ -56,6 +56,13 @@ suites:
     verifier:
       patterns:
         - 'spec/acceptance/tic_services_external_spec.rb'
+  - name: role-tic_services_eventlogging
+    provisioner:
+      custom_facts:
+        puppet_role: tic_services_eventlogging
+    verifier:
+      patterns:
+        - 'spec/acceptance/tic_services_eventlogging_spec.rb'
   - name: role-activemq
     provisioner:
       custom_facts:
