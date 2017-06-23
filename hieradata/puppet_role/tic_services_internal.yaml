@@ -147,6 +147,7 @@ tic::services::karaf_features_install:
   - 'system'
   - 'wrap)'
   - 'camel'
+  - 'tipaas-crypto-service-core'
   - 'tipaas-amq-dependencies'
   - 'tipaas-crypto-service-client'
   - 'tipaas-artifact-manager-client-runtime'
@@ -182,7 +183,6 @@ tic::services::karaf_features_install:
   - 'tesb-el-collector-jms'
   - 'tesb-el-elasticsearch'
   - 'tesb-el-server'
-  - 'tipaas-crypto-service-core'
   - 'tipaas-logs-transfer-service-client'
 
 tic::services20::karaf_features_install:
