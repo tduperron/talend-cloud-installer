@@ -12,6 +12,7 @@ syncope::ams_security_db_host: "%{::postgres_nodes}"
 syncope::ams_security_db_name: 'ams'
 syncope::ams_security_db_user: 'ams'
 syncope::ams_security_db_pass: "%{::master_password}"
+syncope::crypto_url: "%{::crypto_url}"
 
 profile::postgresql::roles:
   syncope:
