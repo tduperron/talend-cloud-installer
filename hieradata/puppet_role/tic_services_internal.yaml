@@ -63,6 +63,7 @@ tic::services::notification_manager_destination_queue: "ipaas.talend.notificatio
 
 tic::services::notification_client_failures_log: "org.talend.ipaas.rt.notification.client.Failures"
 
+tic::services::amq_security_switch: "%{::amq_security_switch}"
 tic::services::ams_postgres_password: "%{::master_password}"
 tic::services::ams_syncope_host: "%{::syncope_nodes}"
 tic::services::ams_syncope_password: "%{::master_password}"
