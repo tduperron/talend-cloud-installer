@@ -190,3 +190,8 @@ tic::services20::karaf_features_install:
   - 'tipaas-account-manager-service'
   - 'tipaas-tpsvc-crypto-client'
   - 'tpsvc-config-client'
+
+tic::services20::karaf_features_remove:
+  - 'tesb-el-collector-jms'
+  - 'tesb-el-elasticsearch'
+  - 'tesb-el-server'
