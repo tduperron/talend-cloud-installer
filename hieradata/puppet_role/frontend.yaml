@@ -117,3 +117,9 @@ nginx::nginx_locations:
     location: '/nginx_status'
     vhost: 'default'
     stub_status: true
+
+limits::fragment:
+  "tomcat/soft/nofile":
+     value: '65535'
+  "tomcat/hard/nofile":
+     value: '65535'
