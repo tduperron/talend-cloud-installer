@@ -135,4 +135,8 @@ describe 'role::frontend' do
     end
   end
 
+  describe file('/srv/tomcat/ipaas-srv/webapps/ipaas/config/config.js') do
+    its(:content) { should include "HELP_URL : 'the-help-url'," }
+  end
+
 end
