@@ -43,7 +43,7 @@ profile::mongodb::users:
     db_address: 'configuration'
     password: "%{::master_password}"
     roles:
-      - role: 'dbAdmin'
+      - role: 'dbOwner'
         db: 'configuration'
   backup:
     db_address: 'admin'
