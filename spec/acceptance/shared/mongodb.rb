@@ -8,6 +8,10 @@ shared_examples 'profile::mongodb' do
     it { is_expected.to be_running }
   end
 
+  describe package('mongodb-org-tools') do
+      it { should be_installed }
+  end
+
   describe port(27017) do
     it { should be_listening }
   end
