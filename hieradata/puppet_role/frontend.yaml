@@ -24,6 +24,7 @@ tic::frontend::elasticache_address: "%{::memcache_nodes}"
 tic::frontend::elasticsearch_host: "%{::elasticsearch_nodes}"
 tic::frontend::elasticsearch_port: "9200"
 
+tic::frontend20::tcomp_static_ips: "%{::vpc_nat_ips}"
 tic::frontend20::scim_service_url: "%{::tpsvc_iam_scim_back_url}"
 tic::frontend20::crypto_service_url: "%{::tpsvc_crypto_url}"
 tic::frontend20::config_tpsvc_service_url: "%{::tpsvc_config_url}"
