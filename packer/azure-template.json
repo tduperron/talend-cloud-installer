@@ -117,6 +117,8 @@
             "type": "shell",
             "execute_command": "sudo -E sh '{{ .Path }}'",
             "inline": [
+                "echo Removing cloud-init",
+                "yum remove -y cloud-init",
                 "rm -rf /tmp/puppet /tmp/packer",
                 "rm -rf /etc/yum.repos.d/talend-system.repo /etc/yum.repos.d/centos-talend.repo /etc/yum.repos.d/talend-ipaas.repo /etc/yum.repos.d/talend-sys-java.repo"
             ]
