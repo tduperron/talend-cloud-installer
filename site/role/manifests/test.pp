@@ -17,6 +17,7 @@ class role::test {
     content => "[ipaas-rt-test]
 nexus=${::nexus_host}
 infra=${::services_internal_host}
+iam_scim=${::tpsvc_iam_scim_back_url}
 "
   }
 
