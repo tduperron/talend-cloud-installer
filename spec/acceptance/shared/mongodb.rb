@@ -71,6 +71,10 @@ shared_examples 'profile::mongodb' do
     its(:stdout) { should include '{"createdAt":1}' }
   end
 
+  describe command('/usr/bin/mongo -u tds -p mypassword tds --eval "printjson(db.getUser(\'tds\'));" | /usr/bin/tr -d "\t\n "') do
+    its(:stdout) { should include '{"role":"dbOwner","db":"tds"}' }
+  end
+
   describe 'Logrotate configuration' do
     subject { file('/etc/logrotate.d/mongodb_log').content }
     it { should include '/var/log/mongodb/mongod.log' }
