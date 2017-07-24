@@ -44,7 +44,7 @@ shared_examples 'profile::mongodb' do
   end
 
   describe command('/usr/bin/mongo -u tpsvc_config -p mypassword configuration --eval "printjson(db.getUser(\'tpsvc_config\'));" | /usr/bin/tr -d "\t\n "') do
-    its(:stdout) { should include '{"role":"dbAdmin","db":"configuration"}' }
+    its(:stdout) { should include '{"role":"dbOwner","db":"configuration"}' }
   end
 
   describe command('/usr/bin/mongo -u backup -p mypassword admin --eval "printjson(db.getUser(\'backup\'));" | /usr/bin/tr -d "\t\n "') do
