@@ -78,6 +78,14 @@ profile::mongodb::users:
       - role: 'dbOwner'
         db: 'dqdict'
 
+  tds:
+    db_address: 'tds'
+    username: 'tds'
+    password: '%{::master_password}'
+    roles:
+      - role: 'dbOwner'
+        db: 'tds'
+
 profile::mongodb::collections:
   Document_index_compound:
     db_address: 'dqdict'
