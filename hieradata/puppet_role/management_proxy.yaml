@@ -1,5 +1,6 @@
 ---
-role::management_proxy::elasticsearch_host: "%{::elasticsearch_sys}"
-role::management_proxy::elasticsearch_url_scheme: 'https'
-role::management_proxy::auth_username: 'kibana'
-role::management_proxy::auth_password: "%{::master_password}"
+role::management_proxy::elasticsearch:
+  sys:
+    elasticsearch_host: "%{::elasticsearch_sys}"
+    auth_username: 'kibana'
+    auth_password: "%{::master_password}"
