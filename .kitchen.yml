@@ -131,6 +131,7 @@ suites:
         puppet_role: test
         services_internal_host: "http://infra-host.com"
         nexus_host: "http://nexus-host.com"
+        tpsvc_iam_scim_back_url: "http://tpsvc_iam_scim_back_url.com"
     verifier:
       patterns:
         - 'spec/acceptance/test_spec.rb'
