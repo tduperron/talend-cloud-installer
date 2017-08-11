@@ -7,6 +7,11 @@ shared_examples 'profile::elasticsearch' do
   describe package('elasticsearch') do
     it { should be_installed }
   end
+  
+  describe file('/usr/local/bin/elasticsearch_backup.sh') do
+      it { should be_file }
+      its(:content) { should include '-XPUT' }
+  end
 
   describe service('elasticsearch-default') do
     it { should be_running }

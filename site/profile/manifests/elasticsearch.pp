@@ -37,7 +37,8 @@ class profile::elasticsearch (
 
   include ::profile::common::concat
   include ::profile::common::cloudwatchlogs
-
+  include ::profile::elasticsearch::backup
+  
   profile::register_profile { 'elasticsearch': }
 
 }
