@@ -17,9 +17,23 @@ shared_examples 'profile::zookeeper' do
   describe package('jre-jce') do
     it { should_not be_installed }
   end
+  
+  describe package('pyasn1') do
+    it { should be_installed.by('pip') }
+  end
 
   describe file('/etc/rc.d/init.d/zookeeper') do
     it { should_not exist }
+  end
+  
+  describe file('/usr/local/bin/zookeeper_backup.sh') do
+      it { should be_file }
+      its(:content) { should include 'aws' }
+  end
+  
+  describe file('/usr/local/bin/zookeeper_restore.sh') do
+      it { should be_file }
+      its(:content) { should include 'latest_backup' }
   end
 
   describe file('/home/tomcat') do
