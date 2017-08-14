@@ -8,6 +8,7 @@ class role::test {
   require ::profile::docker::host
   require ::profile::docker::registry
   require ::profile::web::nginx
+  require ::profile::web::nginx_resolvers
   require ::pip
 
   role::register_role { 'test': }
