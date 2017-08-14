@@ -43,7 +43,6 @@ nginx::nginx_locations:
     raw_prepend:
       - 'include /etc/nginx-resolvers.conf;'
       - "set $proxy_url %{::tpsvc_iam_oidc_back_url};"
-    proxy: '$proxy'
+    proxy: '$proxy_url'
     proxy_set_header: ['Host $host']
     proxy_redirect: 'off'
-    stub_status: true
