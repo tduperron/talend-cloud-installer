@@ -39,10 +39,10 @@ nginx::nginx_locations:
     stub_status: true
   oidc:
     vhost: 'default'
-    location: '/oidc/'
+    location: '~ /oidc/(.*)$'
     raw_prepend:
       - 'include /etc/nginx-resolvers.conf;'
-      - "set $proxy_url %{::tpsvc_iam_oidc_back_url};"
+      - "set $proxy_url %{::tpsvc_iam_oidc_back_url}/$1$is_args$args;"
     proxy: '$proxy_url'
     proxy_set_header: ['Host $host']
     proxy_redirect: 'off'
