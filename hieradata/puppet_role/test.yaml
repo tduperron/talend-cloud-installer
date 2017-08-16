@@ -46,3 +46,12 @@ nginx::nginx_locations:
     proxy: '$proxy_url'
     proxy_set_header: ['Host $host']
     proxy_redirect: 'off'
+  es:
+    vhost: 'default'
+    location: '/'
+    raw_prepend:
+      - 'include /etc/nginx-resolvers.conf;'
+      - "set $proxy_url http://%{::elasticsearch_host}:9200/;"
+    proxy: '$proxy_url'
+    proxy_set_header: ['Host $host']
+    proxy_redirect: 'off'
