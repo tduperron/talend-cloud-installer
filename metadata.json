@@ -19,6 +19,7 @@
     {"name": "puppetlabs/java", "version_requirement": "1.x"},
     {"name": "puppetlabs/limits", "version_requirement": "0.x"},
     {"name": "puppetlabs/firewall", "version_requirement": "1.x"},
+    {"name": "puppetlabs/ntp", "version_requirement": "4.x"},
     {"name": "tracywebtech/pip", "version_requirement": "1.x"},
     {"name": "herculesteam-augeasproviders_shellvar","version_requirement":"2.x"},
     {"name": "camptocamp/accounts", "version_requirement": "1.x"},
