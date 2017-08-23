@@ -23,6 +23,7 @@ activemq::auth_url: 'http://%{::syncope_nodes}:8080/activemq-security-service/au
 activemq::persistence: 'postgres'
 activemq::persistence_pg_host: "%{::activemq_postgres_nodes}"
 activemq::persistence_pg_password: "%{::master_password}"
+activemq::dispatcher_response_queue: "ipaas.talend.dispatcher.response.queue"
 
 profile::postgresql::roles:
   ams:
