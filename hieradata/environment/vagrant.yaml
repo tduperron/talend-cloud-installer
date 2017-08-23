@@ -76,5 +76,5 @@ profile::common::jsons::files:
 
 ntp::interfaces:
   - 127.0.0.1
-  - -6 ::1
+  - ::1
   - "%{::ipaddress_enp0s3}"
