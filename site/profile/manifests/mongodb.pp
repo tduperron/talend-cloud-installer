@@ -22,6 +22,7 @@ class profile::mongodb (
   # $dbpath configured in hiera for monitoring
   # FIXME rework cloudwatch to add defines and so manage easily each mount in each profiles
   include ::profile::common::cloudwatch
+  include ::profile::common::cloudwatchlogs
 
   profile::register_profile { 'mongodb': }
 
@@ -63,8 +64,13 @@ class profile::mongodb (
     path   => '/var/run/mongodb',
     mode   => '0777',
   } ->
+  file { 'ensure mongod user limits':
+    ensure => file,
+    path   => '/etc/security/limits.d/mongod.conf',
+    source => 'puppet:///modules/profile/etc/security/limits.d/mongod.conf',
+    mode   => '0644',
+  } ->
   class { '::mongodb::server':
-    verbose        => true,
     auth           => $_mongo_auth_enable,
     bind_ip        => [$::ipaddress, '127.0.0.1'],
     replset        => $replset_name,
@@ -83,6 +89,9 @@ class profile::mongodb (
   } ->
   class { '::profile::mongodb::users':
     users => $users,
+  } ->
+  class { '::profile::mongodb::rs_config':
+    replset_name => $replset_name,
   } ->
   class { '::profile::mongodb::collections':
     collections => $collections,
