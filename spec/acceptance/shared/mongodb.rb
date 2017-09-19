@@ -36,6 +36,12 @@ shared_examples 'profile::mongodb' do
     describe file('/var/log/mongodb/mongod.log') do
       it { should be_file }
     end
+    describe command('/bin/test $(/bin/egrep \'^[a-zA-Z]{3} [0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} \' /var/log/mongodb/mongod.log | /bin/wc -l) -gt 3') do
+      its(:exit_status) { should eq 0 }
+    end
+    describe command('/bin/test $(/bin/egrep \'^\s*$\' /var/log/mongodb/mongod.log | /bin/wc -l) -eq 0') do
+      its(:exit_status) { should eq 0 }
+    end
   end
 
   describe service('mongod') do
