@@ -49,3 +49,9 @@ mod 'talend-user_accounts', '0.x',
 mod 'puppetlabs-postgresql',
   :git => 'https://github.com/Talend/puppetlabs-postgresql.git',
   :ref => 'master'
+mod 'talend-sbt', '0.x',
+  :git => 'https://github.com/Talend/puppet-sbt.git'
+mod "maestrodev/maven",
+  :git  => 'git@github.com:maestrodev/puppet-maven.git'
+mod "talend-ci", '0.x',
+  :git  => 'https://github.com/Talend/puppet-ci.git'

@@ -3,11 +3,17 @@ FORGE
   specs:
     camptocamp-accounts (1.8.0)
       puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
+    camptocamp-archive (0.9.0)
     camptocamp-systemd (0.4.0)
     ceritsc-yum (0.9.8)
       puppetlabs-stdlib (>= 4.2.0)
     computology-packagecloud (0.3.1)
       puppetlabs-stdlib (>= 0)
+    counsyl-packer (0.9.18)
+      counsyl-sys (< 2.0.0, >= 0.9.18)
+    counsyl-sys (0.9.22)
+      puppetlabs-stdlib (< 5.0.0, >= 4.7.0)
+    darin-zypprepo (1.0.2)
     elasticsearch-elasticsearch (0.14.0)
       ceritsc-yum (< 1.0.0, >= 0.9.6)
       puppetlabs-apt (< 3.0.0, >= 1.4.0)
@@ -18,6 +24,7 @@ FORGE
       puppetlabs-apt (<= 3.0.0, >= 1.8.0)
       puppetlabs-stdlib (>= 4.1.0)
       stahnma-epel (>= 0.0.6)
+    golja-gnupg (1.2.3)
     golja-influxdb (4.0.0)
       puppetlabs-apt (< 3.0.0, >= 1.8.0)
       puppetlabs-stdlib (>= 1.0.0)
@@ -29,7 +36,11 @@ FORGE
       puppetlabs-stdlib (>= 0)
     landcareresearch-amazon_ses (0.1.4)
       puppetlabs-stdlib (>= 2.4.0)
+    maestrodev-rvm (1.12.1)
+      golja-gnupg (>= 1.2.0)
+      puppetlabs-stdlib (>= 4.2.0)
     maestrodev-wget (1.7.3)
+    nanliu-staging (1.0.3)
     puppet-archive (1.2.0)
       puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
     puppet-nginx (0.4.0)
@@ -56,7 +67,16 @@ FORGE
       puppet-staging (< 2.0.0, >= 0.4.1)
       puppetlabs-concat (< 3.0.0, >= 1.1.0)
       puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
+    rfletcher-jq (0.0.2)
+      maestrodev-wget (>= 1.4.0)
     richardc-datacat (0.6.2)
+    rtyler-jenkins (1.6.1)
+      camptocamp-archive (>= 0.8.0)
+      darin-zypprepo (< 2.0.0, >= 1.0.1)
+      nanliu-staging (< 2.0.0, >= 1.0.0)
+      puppetlabs-apt (< 3.0.0, >= 0.0.3)
+      puppetlabs-java (< 2.0.0, >= 1.0.1)
+      puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
     saz-sudo (3.1.0)
       puppetlabs-stdlib (< 5.0.0, >= 2.3.0)
     stahnma-epel (1.2.2)
@@ -69,6 +89,21 @@ FORGE
       puppetlabs-stdlib (>= 3.2.1)
     yo61-logrotate (1.4.0)
       puppetlabs-stdlib (< 5.0.0, >= 1.0.0)
+
+GIT
+  remote: git@github.com:maestrodev/puppet-maven.git
+  ref: master
+  sha: b53fdc35e708f50fcf98254653fdeb3b20830276
+  specs:
+    maestrodev-maven (1.4.1)
+      maestrodev-wget (>= 1.0.0)
+
+GIT
+  remote: https://github.com/Talend/puppet-ci.git
+  ref: master
+  sha: 202d6b319a9694ec1c3f1e08cfba2e43bdd1ec9f
+  specs:
+    talend-ci (0.0.1)
 
 GIT
   remote: https://github.com/Talend/puppet-kafka.git
@@ -90,6 +125,15 @@ GIT
       maestrodev-wget (< 2.0.0, >= 1.0.0)
       puppetlabs-inifile (~> 1.5.0)
       puppetlabs-stdlib (< 5.0.0, >= 0.0.0)
+
+GIT
+  remote: https://github.com/Talend/puppet-sbt.git
+  ref: master
+  sha: 9258a5e5fc8fac6bb60008ac500f3fad0518be51
+  specs:
+    talend-sbt (0.2.0)
+      maestrodev-wget (>= 1.7.0)
+      puppetlabs-stdlib (< 5.0.0, >= 2.4.0)
 
 GIT
   remote: https://github.com/Talend/puppetlabs-postgresql.git
@@ -144,6 +188,7 @@ GITHUBTARBALL
 DEPENDENCIES
   camptocamp-accounts (~> 1.0)
   computology-packagecloud (~> 0.0)
+  counsyl-packer (= 0.9.18)
   elasticsearch-elasticsearch (~> 0.0)
   garethr-docker (~> 5.3.0)
   golja-influxdb (~> 4.0)
@@ -151,6 +196,9 @@ DEPENDENCIES
   hubspot-nexus (>= 0)
   jfryman-selinux (~> 0.0)
   landcareresearch-amazon_ses (~> 0.1.0)
+  maestrodev-maven (>= 0)
+  maestrodev-rvm (= 1.12.1)
+  maestrodev-wget (= 1.7.3)
   puppet-nginx (~> 0.4.0)
   puppetlabs-concat (~> 1.0)
   puppetlabs-firewall (~> 1.0)
@@ -161,13 +209,17 @@ DEPENDENCIES
   puppetlabs-postgresql (>= 0)
   puppetlabs-stdlib (~> 4.0)
   puppetlabs-tomcat (~> 1.0)
+  rfletcher-jq (= 0.0.2)
+  rtyler-jenkins (= 1.6.1)
   saz-sudo (~> 3.0)
   stankevich-python (= 1.18.2)
   talend-activemq (~> 0.0)
+  talend-ci (>= 0)
   talend-cloudwatch (~> 0.0)
   talend-cloudwatchlogs (~> 0.0)
   talend-dataprep_dataset (~> 0.0)
   talend-kafka (>= 0)
+  talend-sbt (~> 0.0)
   talend-syncope (~> 0.0)
   talend-tic (~> 0.0)
   talend-user_accounts (~> 0.0)
