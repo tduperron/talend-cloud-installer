@@ -22,13 +22,28 @@ define profile::kafka::broker_topic(
   $_replication_factor = "--replication-factor ${replication_factor}"
   $_partitions         = "--partitions ${partitions}"
 
-  $_topic_options  = inline_template('<% unless @topic_options.empty? %><% @topic_options.each do |key, value| %> --config <%= key %>=<%= value %><% end %><% end %>')
 
   if $ensure == 'present' {
+    $topic_create_options  = inline_template('<% unless @topic_options.empty? %><% @topic_options.each do |key, value| %> --config <%= key %>=<%= value %><% end %><% end %>')
+    $topic_config_options  = inline_template('<% unless @topic_options.empty? %><% @topic_options.each do |key, value| %> --add-config <%= key %>=<%= value %><% end %><% end %>')
+
+    unless empty($topic_options){
+      exec { "configure topic ${name}":
+        path    => '/usr/bin:/usr/sbin/:/bin:/sbin:/opt/kafka/bin',
+        command => "kafka-configs.sh ${_zookeeper} --entity-type topics --entity-name ${name} --alter ${topic_config_options}",
+        onlyif  => "kafka-topics.sh --list ${_zookeeper} | grep -x '^${name}$'",
+      }
+    }
     exec { "create topic ${name}":
       path    => '/usr/bin:/usr/sbin/:/bin:/sbin:/opt/kafka/bin',
-      command => "kafka-topics.sh --create ${_zookeeper} ${_replication_factor} ${_partitions} --topic ${name} ${_topic_options}",
-      unless  => "kafka-topics.sh --list ${_zookeeper} | grep -x ${name}",
+      command => "kafka-topics.sh --create ${_zookeeper} ${_replication_factor} ${_partitions} --topic ${name} ${topic_create_options}",
+      unless  => "kafka-topics.sh --list ${_zookeeper} | grep -x '^${name}$'",
+    }
+  } elsif $ensure == 'absent' {
+    exec { "delete topic ${name}":
+      path    => '/usr/bin:/usr/sbin/:/bin:/sbin:/opt/kafka/bin',
+      command => "kafka-run-class.sh kafka.admin.TopicCommand ${_zookeeper} --delete --topic ${name}",
+      onlyif  => "kafka-topics.sh --list ${_zookeeper} | grep -x '^${name}$'",
     }
   }
 }

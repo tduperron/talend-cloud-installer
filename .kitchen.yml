@@ -159,10 +159,9 @@ suites:
       custom_facts:
         puppet_role: kafka
         storage_device: /dev/sdb
-        topics_replication_factor: 1
-        topics_partitions: 6
-        topics_max_size_bytes: -1
-        topics_max_age_ms: 86400000
+        kafka_yaml_profile_name: "kafka_applications_cluster_simple"
+        kafka_cluster_id: 'testing-kafka'
+        zookeeper_nodes: "127.0.0.1"
     verifier:
       patterns:
         - 'spec/acceptance/kafka_spec.rb'
