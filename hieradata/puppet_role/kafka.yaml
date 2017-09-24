@@ -5,17 +5,17 @@ profile::kafka::kafka_cluster_id: "%{::kafka_cluster_id}"
 profile::kafka::kafka_yaml_profile_name: "%{::kafka_yaml_profile_name}"
 
 cloudwatchlog_files:
-  "/talend/tic/%{::main_stack}/%{::puppet_role}/opt/kafka/logs/server.log":
+  "/talend/tic/%{::main_stack}/%{::sub_stack}/%{::puppet_role}/opt/kafka/logs/server.log":
     path: '/opt/kafka/logs/server.log'
-  "/talend/tic/%{::main_stack}/%{::puppet_role}/opt/kafka/logs/state-change.log":
+  "/talend/tic/%{::main_stack}/%{::sub_stack}/%{::puppet_role}/opt/kafka/logs/state-change.log":
     path: '/opt/kafka/logs/state-change.log'
-  "/talend/tic/%{::main_stack}/%{::puppet_role}/opt/kafka/logs/kafka-request.log":
+  "/talend/tic/%{::main_stack}/%{::sub_stack}/%{::puppet_role}/opt/kafka/logs/kafka-request.log":
     path: '/opt/kafka/logs/kafka-request.log'
-  "/talend/tic/%{::main_stack}/%{::puppet_role}/opt/kafka/logs/log-cleaner.log":
+  "/talend/tic/%{::main_stack}/%{::sub_stack}/%{::puppet_role}/opt/kafka/logs/log-cleaner.log":
     path: '/opt/kafka/logs/log-cleaner.log'
-  "/talend/tic/%{::main_stack}/%{::puppet_role}/opt/kafka/logs/controller.log":
+  "/talend/tic/%{::main_stack}/%{::sub_stack}/%{::puppet_role}/opt/kafka/logs/controller.log":
     path: '/opt/kafka/logs/controller.log'
-  "/talend/tic/%{::main_stack}/%{::puppet_role}/opt/kafka/logs/kafka-authorizer.log":
+  "/talend/tic/%{::main_stack}/%{::sub_stack}/%{::puppet_role}/opt/kafka/logs/kafka-authorizer.log":
     path: '/opt/kafka/logs/kafka-authorizer.log'
 
 
