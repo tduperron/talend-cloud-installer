@@ -31,13 +31,13 @@ class profile::kafka (
   profile::register_profile { 'kafka': }
 
   $zookeeper_kafkapath = "/${kafka_cluster_id}"
-
-  $zookeeper_connect = join(
+  $zookeeper_cluster = join(
     suffix(
       split(regsubst($zookeeper_nodes, '[\s\[\]\"]', '', 'G'), ','),
-      ":${zookeeper_port}${zookeeper_kafkapath}"
+      ":${zookeeper_port}"
     ), ','
   )
+  $zookeeper_connect = "${zookeeper_cluster}${zookeeper_kafkapath}"
 
   $default_kafka_broker_config = {
     'broker.id'                     => $kafka_broker_id,
