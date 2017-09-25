@@ -81,6 +81,13 @@ kafka_applications_cluster_ha:
     regex: {}
     schemas: {}
     schemas-references: {}
+    dataset-changed: {}
+    datastore-changed: {}
+    app-to-runtime: {}
+    runtime-to-app: {}
+    notifications: {}
+    websocket-to-app: {}
+    app-to-websocket: {}
 
 kafka_applications_cluster_simple:
   kafka_topics_default_partitions: 2
@@ -102,6 +109,13 @@ kafka_applications_cluster_simple:
     regex: {}
     schemas: {}
     schemas-references: {}
+    dataset-changed: {}
+    datastore-changed: {}
+    app-to-runtime: {}
+    runtime-to-app: {}
+    notifications: {}
+    websocket-to-app: {}
+    app-to-websocket: {}
 
 # Example of tuning for profiling kafka:
 # <kafka_yaml_profile_name>:
