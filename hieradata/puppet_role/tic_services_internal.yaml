@@ -181,7 +181,6 @@ tic::services::karaf_features_install:
   - 'tipaas-plan-executor-service'
   - 'tipaas-account-manager-service'
   - 'tipaas-configuration-service-core'
-  - 'tipaas-trial-registration-service'
   - 'tipaas-notification-subscription-service'
   - 'tipaas-notification-manager'
   - 'tipaas-notification-server'
