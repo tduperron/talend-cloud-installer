@@ -31,13 +31,27 @@ define profile::management_proxy::elasticsearch (
     $auth_basic_user_file = undef
   }
 
-  nginx::resource::location { "${name}:nginx location":
+  nginx::resource::location { "${name}:nginx default location":
     ensure               => present,
     vhost                => $nginx_vhost,
     location             => $nginx_location,
     auth_basic           => $auth_basic,
     auth_basic_user_file => $auth_basic_user_file,
-    proxy                => '$proxy_url',
+    proxy                => '$proxy_url$is_args$args',
+    raw_append           => ['proxy_pass_request_headers off;'],
+    raw_prepend          => [
+      'include /etc/nginx-resolvers.conf;',
+      "set \$proxy_url ${elasticsearch_url};"
+    ],
+  }
+
+  nginx::resource::location { "${name}:nginx kibana location":
+    ensure               => present,
+    vhost                => $nginx_vhost,
+    location             => "${nginx_location}/_plugin/kibana",
+    auth_basic           => $auth_basic,
+    auth_basic_user_file => $auth_basic_user_file,
+    proxy                => '$proxy_url/_plugin/kibana/$is_args$args',
     raw_append           => ['proxy_pass_request_headers off;'],
     raw_prepend          => [
       'include /etc/nginx-resolvers.conf;',
