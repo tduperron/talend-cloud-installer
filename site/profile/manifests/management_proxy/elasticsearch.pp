@@ -35,7 +35,7 @@ define profile::management_proxy::elasticsearch (
   nginx::resource::location { "${name}:nginx location":
     ensure               => present,
     vhost                => $nginx_vhost,
-    location             => "~ $nginx_location/(.*)",
+    location             => "~ ${nginx_location}/(.*)",
     priority             => $nginx_location_priority,
     auth_basic           => $auth_basic,
     auth_basic_user_file => $auth_basic_user_file,
