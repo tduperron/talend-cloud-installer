@@ -2,5 +2,6 @@
 role::management_proxy::elasticsearch:
   sys:
     elasticsearch_host: "%{::elasticsearch_sys}"
+    nginx_location: ''
     auth_username: 'kibana'
     auth_password: "%{::master_password}"
