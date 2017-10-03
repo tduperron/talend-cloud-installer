@@ -5,13 +5,18 @@ define profile::management_proxy::elasticsearch (
   $nginx_location_priority  = 500,
   $elasticsearch_host       = undef,
   $elasticsearch_url_scheme = 'https',
+  $elasticsearch_url        = undef,
   $auth_realm               = 'Elasticsearch',
   $auth_username            = undef,
   $auth_password            = undef,
 
 ) {
 
-  $elasticsearch_url = "${elasticsearch_url_scheme}://${elasticsearch_host}/"
+  if $elasticsearch_url {
+    $_elasticsearch_url = $elasticsearch_url
+  } else {
+    $_elasticsearch_url = "${elasticsearch_url_scheme}://${elasticsearch_host}/"
+  }
 
   if $auth_username and $auth_password {
     $htpasswd_file = '/etc/nginx/.htpasswd'
@@ -43,7 +48,7 @@ define profile::management_proxy::elasticsearch (
     raw_append           => ['proxy_pass_request_headers off;'],
     raw_prepend          => [
       'include /etc/nginx-resolvers.conf;',
-      "set \$proxy_url ${elasticsearch_url};"
+      "set \$proxy_url ${_elasticsearch_url};"
     ],
   }
 }

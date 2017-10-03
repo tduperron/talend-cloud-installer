@@ -1,13 +1,13 @@
 ---
 role::management_proxy::elasticsearch:
   system:
-    elasticsearch_host: "%{::elasticsearch_system_logs}"
+    elasticsearch_url: "%{::elasticsearch_system_logs}/"
     nginx_location: '/system'
     nginx_location_priority: 410 # lower is higher
     auth_username: 'kibana'
     auth_password: "%{::master_password}"
   logs:
-    elasticsearch_host: "%{::elasticsearch_customer_logs}"
+    elasticsearch_url: "%{::elasticsearch_customer_logs}/"
     nginx_location: '/logs'
     nginx_location_priority: 450 # lower is higher
     auth_username: 'kibana'
