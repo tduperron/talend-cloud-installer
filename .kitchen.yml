@@ -12,6 +12,8 @@ provisioner:
   ignore_spec_fixtures: true
   puppet_environment: vagrant
   custom_facts:
+    main_stack: test_main
+    sub_stack: test_sub
     tic_db_host: localhost
     postgres_nodes: localhost
     packagecloud_master_token: <%= ENV['PACKAGECLOUD_MASTER_TOKEN'] %>
