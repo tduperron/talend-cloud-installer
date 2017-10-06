@@ -83,7 +83,8 @@ class profile::mongodb (
   exec { 'disable tuned for mongod':
     path    => '/usr/bin:/usr/sbin/:/bin:/sbin',
     command => 'tuned-adm off',
-    before  => Exec['start disable-transparent-hugepages']
+    before  => Exec['start disable-transparent-hugepages'],
+    onlyif  => 'which tuned-adm',
   }
 
   file { 'mongod sysctl conf':
