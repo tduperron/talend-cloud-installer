@@ -63,7 +63,7 @@ class profile::mongodb (
     before => Class['::mongodb::server'],
     notify => [
       Exec['enable disable-transparent-hugepages'],
-      Exec['enable disable-transparent-hugepages']
+      Exec['start disable-transparent-hugepages']
     ]
   }
 
