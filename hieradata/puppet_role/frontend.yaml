@@ -113,15 +113,19 @@ nginx::nginx_vhosts:
     vhost_cfg_append:
       rewrite: '^ https://$host$request_uri? permanent'
   'default':
-    proxy: 'http://ipaasweb'
     listen_port: 8080
     server_name: ['_']
+    use_default_location: false
 
 nginx::nginx_locations:
   status:
     location: '/nginx_status'
     vhost: 'default'
     stub_status: true
+  ipaas:
+    location: '/ipaas'
+    vhost: 'default'
+    proxy: 'http://ipaasweb'
 
 limits::fragment:
   "tomcat/soft/nofile":
