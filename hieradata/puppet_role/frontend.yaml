@@ -126,6 +126,12 @@ nginx::nginx_locations:
     location: '/ipaas'
     vhost: 'default'
     proxy: 'http://ipaasweb'
+  default:
+    location: '= /'
+    vhost: 'default'
+    priority: 410
+    location_custom_cfg:
+      rewrite: '^ https://$host/ipaas$request_uri? permanent'
 
 limits::fragment:
   "tomcat/soft/nofile":
