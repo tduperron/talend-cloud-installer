@@ -6,9 +6,14 @@
 #
 class profile::web::nginx {
 
+  include ::openssl
   include ::nginx
   include ::profile::common::concat
   include ::profile::common::cloudwatchlogs
+
+  class { '::openssl':
+    package_ensure         => latest
+  }
 
   profile::register_profile{ 'nginx': }
 
