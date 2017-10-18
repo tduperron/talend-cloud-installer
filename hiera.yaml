@@ -8,6 +8,8 @@
   - clientcert/%{clientcert}
   - environment/%{::environment}
   - puppet_role/%{puppet_role}
+  - migration_specific/dist_variables
+  - vagrant
   - common
 
 :yaml:

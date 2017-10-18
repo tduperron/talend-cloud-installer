@@ -4,25 +4,23 @@ gem 'puppet', '~> 3.8'
 gem 'rake'
 gem 'tilt'
 gem 'librarian-puppet'
+gem 'test-kitchen'
 
-group :test do
-  gem 'metadata-json-lint'
-  gem 'puppetlabs_spec_helper'
-  gem 'puppet-lint'
-end
+gem 'win32-dir'
+gem 'win32-process'
+gem 'win32-service'
+gem 'ffi'
 
-group :development do
-  gem 'vagrant-wrapper'
-  gem 'kitchen-vagrant'
-end
+gem 'metadata-json-lint'
+gem 'puppetlabs_spec_helper'
+gem 'puppet-lint'
 
-group :system_tests do
-  gem 'test-kitchen'
-  gem 'kitchen-ssh'
-  gem 'kitchen-puppet'
-  gem 'kitchen-sync'
-  gem 'kitchen-verifier-serverspec'
-  gem 'net-ssh'
-  gem 'serverspec'
-  gem 'rspec_junit_formatter'
-end
+gem 'vagrant-wrapper'
+gem 'kitchen-vagrant'
+gem 'kitchen-ssh'
+gem 'kitchen-puppet'
+gem 'kitchen-sync'
+gem 'kitchen-verifier-serverspec'
+gem 'net-ssh'
+gem 'serverspec'
+gem 'rspec_junit_formatter'

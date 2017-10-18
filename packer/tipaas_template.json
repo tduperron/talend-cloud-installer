@@ -1,0 +1,171 @@
+{
+  "variables": {
+    "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+    "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+    "x509_cert_path" : "",
+    "x509_key_path" : "",
+    "ebs_source_ami": "",
+    "s3_source_ami": "",
+    "hvm_source_ami": "",
+    "ec2_region": "",
+    "t_dc_safe": "",
+    "branch": "",
+    "profile": "",
+    "environment": "",
+    "role": "",
+    "appversion": "",
+    "release": "",
+    "subenv":"build",
+    "ami_release": "",
+    "security_group": "sg-2377df46",
+    "packer_user_ensure" : "absent",
+    "ssh_private_key_file": null
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "name": "ebs-hvm",
+      "region": "{{user `ec2_region`}}",
+      "iam_instance_profile": "base-iam-profile-tInstanceProfilebase-1S1FYOB7NQZ1J",
+      "source_ami": "{{user `hvm_source_ami`}}",
+      "instance_type": "t2.small",
+      "ssh_username": "packer",
+      "ami_name": "talend-{{user `profile`}}-{{user `role`}}-{{user `ami_release`}}-{{timestamp}}-hvm",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "ami_virtualization_type": "hvm",
+      "security_group_id" : "{{user `security_group`}}",
+      "ssh_private_key_file": "{{user `ssh_private_key_file`}}",
+      "ami_users": ["054713022081","253441582756", "676807884358", "172292293482", "946092842050", "776907480518"],
+      "user_data_file": "../user_data_files/base.json",
+      "ami_block_device_mappings": [
+        {
+          "device_name": "/dev/sda1",
+          "volume_size": 10,
+          "volume_type": "gp2",
+          "delete_on_termination": true
+        }
+      ],
+      "launch_block_device_mappings": [
+        {
+          "device_name": "/dev/sda1",
+          "volume_size": 10,
+          "volume_type": "gp2",
+          "delete_on_termination": true
+        },
+        {
+          "device_name": "/dev/sdb",
+          "virtual_name": "ephemeral0"
+        }
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+          "sudo rm -f /tmp/script.sh",
+          "sudo rm -rf /tmp/tests",
+          "sudo rm -rf /tmp/packer-puppet-masterless",
+          "sudo chown -R packer:packer /var/packer_upload"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "../files/packer_upload/",
+      "destination": "/var/packer_upload"
+    },
+    {
+      "type": "file",
+      "source": "../files/s3yum/s3.py",
+      "destination": "/tmp/s3.py"
+    },
+    {
+      "type": "file",
+      "source": "../files/s3yum/s3.conf",
+      "destination": "/tmp/s3.conf"
+    },
+    {
+      "type": "shell",
+      "inline": [
+          "sudo cp /tmp/s3.py /usr/lib/yum-plugins/s3.py",
+          "sudo cp /tmp/s3.conf /etc/yum/pluginconf.d/s3.conf"
+      ]
+    },
+    {
+      "type": "shell",
+      "scripts": [
+          "../scripts/common.sh",
+          "../scripts/install_puppet.sh",
+          "../scripts/install_puppet_modules.sh"
+      ],
+      "execute_command": "{{ .Vars }} sudo -E bash {{.Path}}",
+      "environment_vars" : [
+          "t_branch={{user `branch`}}",
+          "t_release={{user `release`}}",
+          "t_environemnt={{user `environment`}}",
+          "t_role={{user `role`}}",
+          "t_profile={{user `profile`}}",
+          "t_subenv={{user `subenv`}}"
+      ]
+    },
+    {
+      "type" : "file",
+      "source" : "../files/puppet.conf",
+      "destination" : "/tmp/puppet.conf"
+    },
+    {
+      "type": "shell",
+      "inline": [
+          "sudo cp /tmp/puppet.conf /etc/puppet/puppet.conf"
+      ]
+    },
+    {
+      "type": "shell",
+      "scripts": [
+          "../scripts/java+ami-tools.sh"
+      ],
+      "execute_command": "sudo -E bash {{.Path}}",
+      "only": ["amazon-instance"]
+    },
+    {
+      "type": "shell",
+      "inline": [
+          "sudo rm -f /root/.ssh/authorized_keys",
+          "sudo rm -f /etc/rc.d/rc.local"
+      ]
+    },
+    {
+      "type": "puppet-masterless",
+      "manifest_file": "../manifests/site.pp",
+      "facter": {
+          "t_branch" : "{{user `branch`}}",
+          "t_release" : "{{user `release`}}",
+          "t_environment" : "{{user `environment`}}",
+          "t_profile" : "{{user `profile`}}",
+          "t_role" : "{{user `role`}}",
+          "t_appversion" : "{{user `appversion`}}",
+          "t_dc" : "aws-{{user `ec2_region`}}",
+          "t_subenv" : "{{user `subenv`}}",
+          "packer_user_ensure" : "{{user `packer_user_ensure`}}",
+          "t_dc_region": "{{user `ec2_region`}}",
+          "t_dc_safe": "{{user `t_dc_safe`}}"
+      },
+      "execute_command": "{{.FacterVars}} sudo -E /usr/bin/flock /var/lock/subsys/puppet -c \"/usr/bin/puppet apply /etc/puppet/environments/{{user `branch`}}/manifests/site.pp --verbose --detailed-exitcodes --environment {{user `branch`}} --hiera_config /etc/puppet/environments/{{user `branch`}}/hiera.yaml\""
+    },
+    {
+      "type" : "file",
+      "source" : "../tests",
+      "destination" : "/tmp"
+    },
+    {
+      "type": "shell",
+      "scripts": [
+          "../scripts/serverspec.sh"
+      ],
+      "environment_vars": ["PATH=/usr/local/sbin:/sbin:/bin:/usr/sbin:/usr/bin"],
+      "execute_command": "sudo -E bash {{.Path}}"
+    }
+  ]
+}
+

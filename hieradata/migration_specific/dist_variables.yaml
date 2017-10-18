@@ -1,0 +1,121 @@
+---
+sudo::configs:
+  'tadmin':
+    'content' : "%tadmin ALL=(ALL) NOPASSWD: ALL"
+    'priority': 10
+sudo::source: puppet:///modules/platform/etc/sudoers
+
+serf::version: "0.7.0"
+serf::config_hash:
+  tags:
+    t_branch: "%{t_branch}"
+    t_release: "%{t_release}"
+    t_environment: "%{t_environment}"
+    t_profile: "%{t_profile}"
+    t_role: "%{t_role}"
+    t_dc: "%{t_dc}"
+    t_subenv: "%{t_subenv}"
+  retry_join:
+    - patient0.internal-tipaas.com
+  event_handlers: ["atq | awk '{print $1}' | xargs -i at -c {} |grep /usr/local/sbin/pnow || echo /usr/local/sbin/pnow | at now + 1 minutes", "logger running serf", "query:forcepnow=/usr/local/sbin/pnow"]
+platform::patient0_node: "%{::serf_my_dist_patient0}"
+
+motd::content: ' '
+
+java::repo_url: "http://%{t_dc_region}-rd-tipaas-talend-com.s3.amazonaws.com/yum-repos/sys-java"
+yum::base::yum_repo_map:
+    talend-puppet:
+        baseurl: "http://%{t_dc_region}-rd-tipaas-talend-com.s3.amazonaws.com/yum-repos/puppet"
+        gpgcheck: false
+        s3_enabled: true
+        metadata_expire: 60
+    dist-centos:
+        baseurl: "http://%{t_dc_region}-rd-tipaas-talend-com.s3.amazonaws.com/yum-repos/20170221/centos/7/os/x86_64"
+        gpgcheck: true
+        gpgkey: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7"
+        s3_enabled: true
+        metadata_expire: 60
+    dist-centos-updates:
+        baseurl: "http://%{t_dc_region}-rd-tipaas-talend-com.s3.amazonaws.com/yum-repos/20170221/centos/7/updates/x86_64"
+        gpgcheck: true
+        gpgkey: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7"
+        s3_enabled: true
+        metadata_expire: 60
+    dist-epel:
+        baseurl: "http://%{t_dc_region}-rd-tipaas-talend-com.s3.amazonaws.com/yum-repos/20170221/epel/7/x86_64"
+        gpgcheck: true
+        gpgkey: "http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7"
+        s3_enabled: true
+        enabled: false
+        metadata_expire: 60
+    sys-java:
+        baseurl: "http://%{t_dc_region}-rd-tipaas-talend-com.s3.amazonaws.com/yum-repos/sys-java"
+        gpgcheck: false
+        s3_enabled: true
+        enabled: true
+        metadata_expire: 60
+    talend-system:
+        baseurl: "http://%{t_dc_region}-rd-tipaas-talend-com.s3.amazonaws.com/yum-repos/system"
+        gpgcheck: false
+        s3_enabled: true
+        enabled: true
+        metadata_expire: 60
+
+
+yum::base::repo_map_deprecated:
+    talend-puppet:
+        baseurl: "http://%{t_dc_region}-rd-tipaas-talend-com.s3.amazonaws.com/yum-repos/puppet"
+        gpgcheck: false
+        s3_enabled: true
+        metadata_expire: 60
+    centos-20150320:
+        baseurl: "http://%{t_dc_region}-rd-tipaas-talend-com.s3.amazonaws.com/yum-repos/20150320/centos/6.6/os/x86_64"
+        gpgcheck: true
+        gpgkey: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6"
+        s3_enabled: true
+        metadata_expire: 60
+    centos-updates-20150320:
+        baseurl: "http://%{t_dc_region}-rd-tipaas-talend-com.s3.amazonaws.com/yum-repos/20150320/centos/6.6/updates/x86_64"
+        gpgcheck: true
+        gpgkey: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6"
+        s3_enabled: true
+        metadata_expire: 60
+    epel-20150320:
+        baseurl: "http://%{t_dc_region}-rd-tipaas-talend-com.s3.amazonaws.com/yum-repos/20150320/epel/6/x86_64"
+        gpgcheck: true
+        gpgkey: "http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-6"
+        s3_enabled: true
+        enabled: false
+        metadata_expire: 60
+    sys-java:
+        baseurl: "http://%{t_dc_region}-rd-tipaas-talend-com.s3.amazonaws.com/yum-repos/sys-java"
+        gpgcheck: false
+        s3_enabled: true
+        enabled: true
+        metadata_expire: 60
+    talend-system:
+        baseurl: "http://%{t_dc_region}-rd-tipaas-talend-com.s3.amazonaws.com/yum-repos/system"
+        gpgcheck: false
+        s3_enabled: true
+        enabled: true
+        metadata_expire: 60
+
+platform::logstash_forwarder_certificate: |
+ -----BEGIN CERTIFICATE-----
+ MIIC6zCCAdOgAwIBAgIJAMAdOVixl0ulMA0GCSqGSIb3DQEBCwUAMAwxCjAIBgNV
+ BAMMASowHhcNMTYwMzE1MTcyODQxWhcNMjYwMzE1MTcyODQxWjAMMQowCAYDVQQD
+ DAEqMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsvZa6fJWK48ML7Qk
+ 3Zg/YtLNF2QqsGQgRXE1jkysBx32+3EZ/2RIJBc0uj11IbvPsA89+l+KxtYRzvNJ
+ NafS37wtKBLeT4ezaDslBBrVahusELzvXAxkZwyx14XfqPH2C0tB0smYwP3YU8Ot
+ O1U4bhN81CRPa94RxfkwfwRDLvRoFT36w3RvyN39zZXfHgNTDv2McjhWtiEYbbkb
+ FVquGzHlf9NvhGmJVbtn3d8FIA0DzMNH8DxiT+844N4BJrsIWvqNoUgSP2v2UKur
+ xn7y2q12WTo7qfEaBUvuk2moYQRA1aRpgKGMiD/Yw5pcUs8MzD3FrWEgW249Nyav
+ I6VjfQIDAQABo1AwTjAdBgNVHQ4EFgQU7ezCDMkoHe5I9VHOB64X+P888sMwHwYD
+ VR0jBBgwFoAU7ezCDMkoHe5I9VHOB64X+P888sMwDAYDVR0TBAUwAwEB/zANBgkq
+ hkiG9w0BAQsFAAOCAQEAXX6xorziCuAQvRV7hM3pU+6EOKZa3g0S8SetNcFx61NL
+ a6VTFSbyBjZOidJ32AoZ42HoImaM8A29Gx2IwKTNuF9+KKZvgHonwfBS4dh3LJ0h
+ mOx2CfOdvtuna9Be64eKzwzL0o3eGo0ozWbVksS+at0DCl57qa7fBg0bgISAFhA3
+ WNSzM3aD/6zmFYnPwvzgI3Fc2DwAHnBlkJBLkBnllBPiUY2u4/QP2fByW9wEVfY1
+ Bip8EdS4g29uc+dBZaN4Vf3K6NenDjBWp9KSl17/d9KwUxUxK4c5pQ1Z33s9FIOJ
+ dMARzmBj1JkaErJtQxzkBYkUDO7CxqIRhZJpUAdedQ==
+ -----END CERTIFICATE-----

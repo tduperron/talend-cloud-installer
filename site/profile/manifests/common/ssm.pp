@@ -14,6 +14,10 @@ class profile::common::ssm (
     $url  = "https://amazon-ssm-${region}.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm"
     $path = '/opt/amazon-ssm-agent.rpm'
 
+    if ! defined(Package['wget']) {
+      ensure_packages(['wget'])
+    }
+
     exec { 'download-ssm-agent':
       command => "/usr/bin/wget -T60 -N ${url} -O ${path}",
       creates => $path,
@@ -29,5 +33,6 @@ class profile::common::ssm (
       enable => $service_enable,
     }
   }
+  
 
 }

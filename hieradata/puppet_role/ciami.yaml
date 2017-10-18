@@ -1,0 +1,73 @@
+---
+#From tipaas jenkins-dist
+#ci::jenkins::role: jenkins_dist
+ci::build_tools::jjb_version: 1.4.0
+docker::docker_users:
+  - jenkins
+
+### From tipaas non-role
+jenkins::configure_firewall: false
+ci::reviewboard::proxy_github_client_id: cf3ee7c8d21c65aef437
+ci::reviewboard::rb_github_client_id: a3102e9a109be937f588
+ci::jenkins_master::maven_version: 3.2.5
+ci::jenkins::jenkins_version: '1.658-1.1'
+ci::jobbuilder::jjbrancher_version: '0.0.13-26'
+docker::use_upstream_package_source: true
+docker::repo_opt: '--enablerepo=dist-epel'
+docker::package_source_location: 'http://yum.dockerproject.org/repo/main/centos/7'
+docker::package_key_source: 'http://yum.dockerproject.org/gpg'
+docker::version: '1.11.2-1.el7.centos'
+docker::compose::version: 1.7.0
+docker::tcp_bind:
+  - 'tcp://0.0.0.0:2375'
+gradle::version: 2.12
+maven::maven::repo:
+  url: http://repo1.maven.org/maven2
+ci::jenkins::sonar_url: https://sonar.datapwn.com
+ci::jenkins::sonar_version: '5.3'
+ci::jenkins::pull_request_bot: tipaas-bot
+ci::build_tools::nexus_base_url: https://artifacts-zl.talend.com/nexus/content/repositories/
+java::distribution: "jdk"
+java::package: "jdk1.8.0_112"
+java::version: "1.8.0_112-fcs"
+java::java_home: "/usr/java/jdk1.8.0_112"
+java::java_alternative: "jdk1.8.0_112"
+java::java_alternative_path: "/usr/java/jdk1.8.0_112/bin/java"
+packer::version: "0.10.1"
+wget::manage_package: false
+sudo::purge: false
+sudo::configs:
+  'packer':
+     'content': 'jenkins ALL=(ALL) NOPASSWD:SETENV: /usr/local/bin/packer'
+
+python::version: 'system'
+python::pip: 'present'
+python::dev: 'present'
+python::virtualenv: 'present'
+
+ci::blackduck::blackduck_user: 'blackduck_jenkins'
+ci::blackduck::blackduck_uuid: '2a2377cf-99b9-4e24-8de4-72050b542307'
+ci::blackduck::blackduck_url: 'https://blackduck.talend.com/'
+
+cloudwatch::metrics:
+  Memory:
+    type              : memory
+    params            : ''
+    unit              : Percent
+    description       : 'Get percentage of used memory'
+    statistic         : Maximum
+    period            : 300
+    evaluationperiods : 3
+    threshold         : 80
+    comparisonoperator: GreaterThanThreshold
+
+  LoadAveragePercent:
+    type              : loadaverage
+    params            : ''
+    unit              : Percent
+    description       : 'Get percentage of the load average computed in the 1 minute one against the vcpu number.'
+    statistic         : Maximum
+    period            : 300
+    evaluationperiods : 3
+    threshold         : 150
+    comparisonoperator: GreaterThanThreshold

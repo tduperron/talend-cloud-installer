@@ -1,0 +1,83 @@
+{
+  "variables": {
+    "puppet_role": "",
+    "packagecloud_master_token": "{{env `PACKAGECLOUD_MASTER_TOKEN`}}",
+    "installer_version": "",
+    "ssh_port": "2222",
+    "packer_tempdir": "/tmp/packer"
+  },
+  "builders": [
+    {
+      "type":         "null",
+      "name":         "vagrant1",
+      "ssh_host":     "127.0.0.1",
+      "ssh_port":     "{{user `ssh_port`}}",
+      "ssh_username": "vagrant",
+      "ssh_private_key_file": "private_key"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sudo rm -rf /tmp/puppet",
+        "mkdir -p /tmp/puppet/hieradata",
+        "echo Cleaned old puppet"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo sh -c 'find /etc/yum.repos.d -type f -exec rm -rf {} +'",
+        "mkdir -p {{user `packer_tempdir`}}/yum.repos.d "
+      ]
+    },
+    {
+      "type": "file",
+      "source": "{{template_dir}}/etc/yum.repos.d/",
+      "destination": "{{user `packer_tempdir`}}/yum.repos.d"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo sh -c 'cp -r {{user `packer_tempdir`}}/yum.repos.d/* /etc/yum.repos.d/'"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "{{template_dir}}/../hieradata/",
+      "destination": "/tmp/puppet/hieradata"
+    },
+    {
+      "type": "file",
+      "source": "{{template_dir}}/extra.yaml",
+      "destination": "/tmp/puppet/hieradata/extra.yaml"
+    },
+    {
+      "type": "puppet-masterless",
+      "execute_command": "cd {{.WorkingDir}} && {{.FacterVars}}{{if .Sudo}} AWS_ACCESS_KEY_ID='AKIAIOB3MBWAS3MKKATA' AWS_SECRET_ACCESS_KEY='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' sudo -E {{end}} {{if ne .PuppetBinDir \"\"}}{{.PuppetBinDir}}{{end}}puppet apply --verbose --modulepath='{{.ModulePath}}' {{if ne .HieraConfigPath \"\"}}--hiera_config='{{.HieraConfigPath}}' {{end}} {{if ne .ManifestDir \"\"}}--manifestdir='{{.ManifestDir}}' {{end}} --detailed-exitcodes  {{if ne .ExtraArguments \"\"}}{{.ExtraArguments}} {{end}} {{.ManifestFile}}",
+      "staging_directory": "/tmp/puppet",
+      "manifest_file": "{{template_dir}}/../manifests/site.pp",
+      "module_paths": [
+        "{{template_dir}}/../modules",
+        "{{template_dir}}/../site"
+      ],
+      "hiera_config_path": "{{template_dir}}/../hiera.yaml",
+      "extra_arguments": [
+        "--confdir=/tmp/puppet"
+      ],
+      "facter": {
+        "environment": "vagrant",
+        "packagecloud_master_token": "{{user `packagecloud_master_token`}}",
+        "puppet_role": "{{user `puppet_role`}}"
+      }
+    },
+    {
+      "type": "shell",
+      "execute_command": "sudo -E sh '{{ .Path }}'",
+      "inline": [
+        "rm -rf /tmp/puppet /tmp/packer"
+      ]
+    }
+  ]
+}

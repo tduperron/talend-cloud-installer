@@ -1,0 +1,174 @@
+{
+  "variables": {
+    "puppet_role": "",
+    "ami_name": "",
+    "ami_version": "0.1",
+    "ami_type": "hvm",
+    "packagecloud_master_token": "{{env `PACKAGECLOUD_MASTER_TOKEN`}}",
+    "installer_version": "",
+    "source_ami": "",
+    "ami_description": ""
+  },
+  "builders": [
+    {
+      "type":         "null",
+      "name":         "vagrant",
+      "ssh_host":     "127.0.0.1",
+      "ssh_port":     "2222",
+      "ssh_username": "vagrant",
+      "ssh_private_key_file": "private_key"
+    },
+    {
+      "type": "amazon-chroot",
+      "name": "amazon",
+      "source_ami": "{{user `source_ami`}}",
+      "ami_name": "talend-tic-{{user `ami_name`}}-{{user `ami_version`}}-{{timestamp}}-{{user `ami_type`}}",
+      "ami_description": "{{user `ami_description`}}",
+      
+      
+      "ami_users": ["676807884358","172292293482","946092842050","776907480518"],
+      
+      "tags": {
+        
+        "puppet_role": "{{user `puppet_role`}}",
+        "installer_version": "{{user `installer_version`}}"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "only": ["vagrant"],
+      "execute_command": "sh '{{ .Path }}'",
+      "inline": [
+        "sudo yum install -y wget",
+        "source /vagrant/vars.sh",
+        "mkdir -p /tmp/yum.repos.d"
+      ]
+    },
+    {
+      "type": "file",
+      "only": ["vagrant"],
+      "source": "{{template_dir}}/etc/yum.repos.d/",
+      "destination": "/tmp/yum.repos.d"
+    },
+    {
+      "type": "shell",
+      "override": {
+        "vagrant": {
+          "execute_command": "sudo -E sh '{{ .Path }}'"
+        }
+      },
+      "inline": [
+        "find /etc/yum.repos.d -type f -exec rm -rf {} +"
+      ]
+    },
+    {
+      "type": "shell",
+      "only": ["vagrant"],
+      "inline": [
+        "sudo cp -r /tmp/yum.repos.d/* /etc/yum.repos.d/"
+      ]
+    },
+    {
+      "type": "file",
+      "only": ["amazon"],
+      "source": "{{template_dir}}/etc/yum.repos.d/",
+      "destination": "/etc/yum.repos.d"
+    },
+    {
+      "type": "file",
+      "only": ["amazon"],
+      "source": "{{template_dir}}/yum-plugin-s3-iam-1.0.2-1.noarch.rpm",
+      "destination": "/tmp/yum-plugin-s3-iam-1.0.2-1.noarch.rpm"
+    },
+    {
+      "type": "shell",
+      "only": ["amazon"],
+      "inline": [
+        "rpm -Uv --replacepkgs /tmp/yum-plugin-s3-iam-1.0.2-1.noarch.rpm"
+      ]
+    },
+    {
+      "type": "shell",
+      "override": {
+        "vagrant": {
+          "execute_command": "sudo -E sh '{{ .Path }}'"
+        }
+      },
+      "inline": [
+        "yum clean all",
+        "rpm -Uv --replacepkgs http://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm",
+        "yum install --nogpgcheck -y puppet python-pip python-devel policycoreutils-devel cloud-init",
+        "gem install aws-sdk hiera-eyaml hiera-eyaml-kms",
+        "puppet module install camptocamp-ruby && puppet apply -e 'include ruby::gems'",
+        "puppet module install camptocamp-augeas && puppet apply -e 'include ::augeas'",
+        "rm -rf /tmp/puppet"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "mkdir -p /tmp/puppet/hieradata"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "{{template_dir}}/../hieradata/",
+      "destination": "/tmp/puppet/hieradata"
+    },
+    {
+      "type": "file",
+      "source": "{{template_dir}}/extra.yaml",
+      "destination": "/tmp/puppet/hieradata/extra.yaml"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "mkdir -p /tmp/packer/yum.repos.d"
+      ]
+    },
+    {
+      "type": "puppet-masterless",
+      "prevent_sudo": "true",
+      "override": {
+        "vagrant": {
+          "prevent_sudo": "false"
+        }
+      },
+      "staging_directory": "/tmp/puppet",
+      "manifest_file": "{{template_dir}}/../manifests/site.pp",
+      "module_paths": [
+        "{{template_dir}}/../modules",
+        "{{template_dir}}/../site"
+      ],
+      "hiera_config_path": "{{template_dir}}/../hiera.yaml",
+      "extra_arguments": [
+        "--confdir=/tmp/puppet"
+      ],
+      "facter": {
+        "environment": "ami",
+        "packagecloud_master_token": "{{user `packagecloud_master_token`}}",
+        "puppet_role": "{{user `puppet_role`}}"
+      }
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "find /etc/yum.repos.d -type f ! -name puppetlabs.repo -exec rm -rf {} +"
+      ]
+    },
+    {
+      "type": "shell",
+      "override": {
+        "vagrant": {
+          "execute_command": "sudo -E sh '{{ .Path }}'"
+        }
+      },
+      "inline": [
+        "rm -rf /tmp/puppet /tmp/packer",
+        "rm -rf /etc/yum.repos.d/talend-system.repo /etc/yum.repos.d/centos-talend.repo /etc/yum.repos.d/talend-ipaas.repo /etc/yum.repos.d/talend-sys-java.repo"
+      ]
+    }
+  ]
+}
