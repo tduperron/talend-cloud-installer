@@ -8,8 +8,6 @@ class profile::web::nginx {
 
   if ! defined(Package['openssl']) {
       package { 'openssl': ensure => 'latest' }
-
-      package['openssl'] -> Class['nginx']
   }
 
   include ::nginx
