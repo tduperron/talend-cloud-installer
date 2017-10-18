@@ -130,6 +130,8 @@ kafka_applications_cluster_simple:
     notifications: {}
     websocket-to-app: {}
     app-to-websocket: {}
+    logs-app-to-runtime: {}
+    logs-runtime-to-app: {}
     tds_localOffsets: {}
     publication: {}
 
