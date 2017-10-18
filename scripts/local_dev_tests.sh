@@ -77,7 +77,7 @@ CLEAN_MODE=0
 SYNTAX_ONLY=0
 REDO=0
 
-while getopts hclstr: option
+while getopts hclst:r: option
 do
   case "${option}" in
     h) fShowHelp; exit $?;;
