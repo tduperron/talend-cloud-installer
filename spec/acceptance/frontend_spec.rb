@@ -143,6 +143,10 @@ describe 'role::frontend' do
     its(:content) { should include "HELP_URL : 'the-help-url'," }
   end
 
+  describe command('/usr/bin/curl -v http://127.0.0.1:8404') do
+    its(:stdout) { should include "HTTP/1.1 404 Not Found" }
+  end
+
   describe command('/usr/bin/curl -v http://127.0.0.1:8080/ipaas') do
     its(:stdout) { should_not include 'HTTP/1.1 301 Moved Permanently' }
   end

@@ -106,6 +106,12 @@ nginx::nginx_upstreams:
         - 127.0.0.1
 
 nginx::nginx_vhosts:
+  'bad_request':
+    use_default_location: false
+    server_name: ['_']
+    listen_port: 8404
+    vhost_cfg_append:
+      return: '404'
   'redirect':
     use_default_location: false
     server_name: ['_']
