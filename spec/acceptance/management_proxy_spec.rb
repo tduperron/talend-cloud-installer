@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe 'role::management_proxy' do
 
+  describe package('nginx') do
+    it { should be_installed.with_version('1.12.1') }
+  end
+
   describe command('/usr/bin/curl -v http://localhost:8080/') do
     its(:stdout) { should_not include 'You Know, for Search' }
     its(:stdout) { should include 'HTTP/1.1 401 Unauthorized' }

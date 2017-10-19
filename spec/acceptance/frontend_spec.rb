@@ -4,6 +4,10 @@ describe 'role::frontend' do
   it_behaves_like 'profile::base'
   it_behaves_like 'role::defined', 'frontend'
 
+  describe package('nginx') do
+    it { should be_installed.with_version('1.12.1') }
+  end
+
   describe port(8081) do
     it { should be_listening }
   end
