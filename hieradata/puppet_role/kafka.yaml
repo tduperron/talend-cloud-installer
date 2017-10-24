@@ -102,7 +102,7 @@ kafka_applications_cluster_ha:
     app-to-websocket: {}
     logs-app-to-runtime: {}
     logs-runtime-to-app: {}
-    tds_localOffsets: {}
+    local-offsets: {}
     publication: {}
 
 kafka_applications_cluster_simple:
@@ -134,7 +134,7 @@ kafka_applications_cluster_simple:
     app-to-websocket: {}
     logs-app-to-runtime: {}
     logs-runtime-to-app: {}
-    tds_localOffsets: {}
+    local-offsets: {}
     publication: {}
 
 # Example of tuning for profiling kafka:
