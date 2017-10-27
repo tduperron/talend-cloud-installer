@@ -101,3 +101,5 @@ role::management_proxy::elasticsearch:
     nginx_location_priority: 410
     auth_username: 'kibana3'
     auth_password: "%{::master_password}"
+
+profile::test_launcher::tmc_pswseed: 'test_tmc_pswseed'

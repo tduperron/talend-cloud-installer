@@ -140,6 +140,22 @@ suites:
     verifier:
       patterns:
         - 'spec/acceptance/test_spec.rb'
+  - name: role-test-launcher
+    driver:
+      vagrantfiles:
+        - vagrant/second_disk.rb
+    provisioner:
+      custom_facts:
+        puppet_role: test_launcher
+        tmc_url: "https://talend-cloud-integration-tmc.datapwn.com/"
+        scim_url: "https://talend-cloud-integration-iam.datapwn.com/swagger/scim/"
+        login_url: "https://talend-cloud-integration-tpsvc-portal.datapwn.com/"
+        tmc_pswseed: "LC74i9pbtnbHutb64qQYaX9dFd47L56eVA5jAWpLgM36fh6D5N99Y54KT9"
+        report_bucket: "fake-bucket"
+        storage_device: /dev/sdb
+    verifier:
+      patterns:
+        - 'spec/acceptance/test_launcher_spec.rb'
   - name: role-influxdb
     driver:
       vagrantfiles:
