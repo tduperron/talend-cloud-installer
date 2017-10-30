@@ -67,3 +67,9 @@ cloudwatchlog_files:
   "/talend/tic/%{::main_stack}/%{::puppet_role}/opt/activemq/data/activemq.log":
     path: '/opt/activemq/data/activemq.log'
 
+limits::fragment:
+  "activemq/soft/nofile":
+     value: '102400'
+  "activemq/hard/nofile":
+     value: '102400'
+
