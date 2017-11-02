@@ -142,6 +142,8 @@ tic::services::cms_dts_service_url: "%{::dts_host}"
 tic::services::cms_lts_service_url: "%{::lts_host}"
 tic::services::lts_service_url: "%{::lts_host}"
 tic::services::cms_amq_broker_url: "%{::activemq_host}"
+tic::services20::scim_service_url: "%{::tpsvc_iam_scim_back_url}"
+tic::services20::iam_service_url: "%{::tpsvc_iam_server_front_url}"
 tic::services20::crypto_service_url: "%{::tpsvc_crypto_url}"
 tic::services20::config_service_url: "%{::tpsvc_config_url}"
 
