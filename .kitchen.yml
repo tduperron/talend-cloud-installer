@@ -11,6 +11,7 @@ provisioner:
   hiera_data_remote_path: /etc/puppet/hieradata
   ignore_spec_fixtures: true
   puppet_environment: vagrant
+  require_chef_for_busser: false
   custom_facts:
     main_stack: test_main
     sub_stack: test_sub

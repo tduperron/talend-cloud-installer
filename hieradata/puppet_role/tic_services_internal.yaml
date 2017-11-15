@@ -115,10 +115,10 @@ tic::services::dispatcher_response_queue: "ipaas.talend.dispatcher.response.queu
 
 tic::services::tipaas_email_subject: "Confirmation Required for Talend Integration Cloud Trial"
 
-tic::services20::scim_service_url: "%{::tpsvc_iam_scim_back_url}"
-tic::services20::iam_service_url: "%{::tpsvc_iam_server_front_url}"
-tic::services20::crypto_service_url: "%{::tpsvc_crypto_url}"
-tic::services20::config_service_url: "%{::tpsvc_config_url}"
+tic::services::scim_service_url: "%{::tpsvc_iam_scim_back_url}"
+tic::services::iam_service_url: "%{::tpsvc_iam_server_front_url}"
+tic::services::crypto_service_url: "%{::tpsvc_crypto_url}"
+tic::services::config_service_url: "%{::tpsvc_config_url}"
 
 tic::services::notification_subscription_memcached_host: "%{::memcache_nodes}"
 
@@ -190,13 +190,5 @@ tic::services::karaf_features_install:
   - 'tesb-el-server'
   - 'tipaas-logs-transfer-service-client'
   - 'tipaas-healthcheck-service-core'
-
-tic::services20::karaf_features_install:
-  - 'tipaas-account-manager-service'
   - 'tipaas-tpsvc-crypto-client'
   - 'tpsvc-config-client'
-
-tic::services20::karaf_features_remove:
-  - 'tesb-el-collector-jms'
-  - 'tesb-el-elasticsearch'
-  - 'tesb-el-server'

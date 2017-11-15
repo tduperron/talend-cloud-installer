@@ -43,12 +43,11 @@ sudo::configs:
 tic::services::init_configuration_service::username: "%{::services_username}"
 tic::services::init_configuration_service::password: "%{::services_password}"
 
-tic::frontend20::client_app_oidc_clientId: "iam-client"
-tic::frontend20::client_app_oidc_clientSecret: "iam-client-secret"
-tic::frontend20::server_app_oidc_clientId: "iam-server"
-tic::frontend20::server_app_oidc_clientSecret: "iam-server-secret"
-tic::frontend20::help_url: "the-help-url"
-tic::frontend18::help_url: "the-help-url"
+tic::frontend::client_app_oidc_clientId: "iam-client"
+tic::frontend::client_app_oidc_clientSecret: "iam-client-secret"
+tic::frontend::server_app_oidc_clientId: "iam-server"
+tic::frontend::server_app_oidc_clientSecret: "iam-server-secret"
+tic::frontend::help_url: "the-help-url"
 
 activemq::persistence: 'kahadb'
 

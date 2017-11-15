@@ -13,7 +13,7 @@ describe 'role::frontend' do
   end
 
   describe command('/usr/bin/wget -O - http://127.0.0.1:8081') do
-    its(:stdout) { should include '<title>Talend Integration Cloud</title>' }
+    its(:stdout) { should include '<title>Integration Cloud | Talend</title>' }
   end
 
   describe port(8009) do
@@ -60,7 +60,6 @@ describe 'role::frontend' do
   /srv/tomcat/ipaas-srv/webapps/ipaas/config/config.js
   /srv/tomcat/ipaas-srv/conf/jaas-ipaas-services.conf
   /srv/tomcat/ipaas-srv/conf/jaas-ipaas-server.conf
-  /srv/tomcat/ipaas-srv/webapps/ipaas-server/META-INF/context.xml
   ).each do |f|
     describe file(f) do
       it { should be_file }
@@ -95,10 +94,6 @@ describe 'role::frontend' do
 
   describe file('/srv/tomcat/ipaas-srv/webapps/ipaas-server/WEB-INF/web.xml') do
     its(:content) { should include '<secure>false</secure>' }
-  end
-
-  describe file('/srv/tomcat/ipaas-srv/webapps/ipaas/WEB-INF/web.xml') do
-    its(:content) { should include '<welcome-file>index-min.jsp</welcome-file>' }
   end
 
   describe service('tomcat-ipaas-srv') do
