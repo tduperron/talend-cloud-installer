@@ -9,6 +9,7 @@ common_packages:
     ensure: '2.0-4'
 
 activemq::version: 'installed'
+activemq::jmx_enabled: true
 activemq::network_password: "%{::master_password}"
 activemq::network_user: 'activemq'
 activemq::brokers: '%{::activemq_nodes}'
