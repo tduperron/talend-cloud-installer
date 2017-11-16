@@ -58,8 +58,6 @@ describe 'role::frontend' do
 
   %w(
   /srv/tomcat/ipaas-srv/webapps/ipaas/config/config.js
-  /srv/tomcat/ipaas-srv/conf/jaas-ipaas-services.conf
-  /srv/tomcat/ipaas-srv/conf/jaas-ipaas-server.conf
   ).each do |f|
     describe file(f) do
       it { should be_file }
