@@ -152,4 +152,9 @@ describe 'role::frontend' do
     its(:stdout) { should include 'HTTP/1.1 301 Moved Permanently' }
   end
 
+  describe file('/srv/tomcat/ipaas-srv/webapps/ipaas/config/config.js') do
+    its(:content) { should include 'PENDO_CLOUD_PROVIDER: \'AWS\',' }
+    its(:content) { should include 'PENDO_REGION: \'US East (N. Virginia)\',' }
+  end
+
 end
