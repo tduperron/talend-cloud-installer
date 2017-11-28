@@ -102,6 +102,7 @@ kafka_applications_cluster_ha:
     app-to-websocket: {}
     logs-app-to-runtime: {}
     logs-runtime-to-app: {}
+    userflow-changed: {}
     impact-analysis-offsets:
       partitions: 1
     publication: {}
@@ -135,6 +136,7 @@ kafka_applications_cluster_simple:
     app-to-websocket: {}
     logs-app-to-runtime: {}
     logs-runtime-to-app: {}
+    userflow-changed: {}
     impact-analysis-offsets:
       partitions: 1
     publication: {}
