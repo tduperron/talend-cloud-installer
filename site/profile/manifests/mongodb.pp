@@ -10,9 +10,11 @@ class profile::mongodb (
   $service_enable      = true,
   $dbpath              = '/var/lib/mongo',
   $storage_device      = undef,
+  $admin_user          = undef,
+  $admin_password      = undef,
   $users               = {},
   $roles               = {},
-  $collections         = {},
+  $swap_ensure         = 'present'
 ) {
 
   require ::profile::common::packages
@@ -30,26 +32,43 @@ class profile::mongodb (
 
   # A list of strings, like ['10.0.2.12:27017', '10.0.2.23:27017']
   $_mongo_nodes = suffix(split(regsubst($mongodb_nodes, '[\s\[\]\"]', '', 'G'), ','), ':27017')
-  $_mongo_auth_enable = str2bool($replset_auth_enable)
+  $mongo_auth_flag_path = "${dbpath}/mongo_auth.flag"
+
+  $mongo_auth_asked = str2bool($replset_auth_enable)
+
+  if empty($admin_user) or empty($admin_password){
+    $create_admin = false
+  } else {
+    $create_admin = true
+  }
+
+  swap_file::files { 'mongo_swap':
+    ensure       => $swap_ensure,
+    swapfile     => '/mnt/mongo.swap',
+    swapfilesize => $::memorysize,
+  }
 
   # explicitly only support replica sets of size 3
   if size($_mongo_nodes) == 3 {
-    $replset_name = 'tipaas'
+    if empty($::mongodb_replset_name) {
+      $replset_name = 'tipaas'
+    } else {
+      $replset_name = $::mongodb_replset_name
+    }
 
     $replset_config = {
-      'tipaas' => {
+      "${replset_name}" => {
         ensure  => 'present',
         members => $_mongo_nodes
       }
     }
 
-    if $_mongo_auth_enable == true {
+    if $mongo_auth_asked {
       $keyfile = '/var/lib/mongo/shared_key'
     } else {
       $keyfile = undef
     }
   } else {
-    $mongo_replset_name = undef
     $replset_name = undef
   }
 
@@ -103,18 +122,50 @@ class profile::mongodb (
     command => 'sysctl --system'
   }
 
+  class { '::profile::mongodb::verify_auth':
+    auth_wanted => $mongo_auth_asked,
+    flag_file   => $mongo_auth_flag_path,
+    require     => [Class['::profile::common::mount_device'], Class['::mongodb::server::config']],
+    before      => Class['::mongodb::server::service']
+  }
+
   class { '::profile::common::mount_device':
     device  => $storage_device,
     path    => $dbpath,
-    options => 'noatime,nodiratime,noexec'
-  } ->
-  class {'::mongodb::globals':
-    manage_package_repo => true,
-  }->
+    options => 'noatime,nodiratime,noexec',
+    before  => Class['::mongodb::server']
+  }
+
+  if empty($::mongodb_forced_version) {
+    class {'::mongodb::globals':
+      manage_package_repo => true,
+      manage_pidfile      => false,
+      before              => Class['::mongodb::client']
+    }
+  } else {
+    if $::environment == 'ami' or $::environment == 'vagrant' {
+      class { 'profile::build_time_facts':
+        facts_hash => {
+          'mongodb_forced_version' => $::mongodb_forced_version,
+        }
+      }
+    }
+    class {'::mongodb::globals':
+      version             => $::mongodb_forced_version,
+      manage_package_repo => true,
+      manage_pidfile      => false,
+      before              => Class['::mongodb::client']
+    }
+  }
+
   file { 'ensure mongodb pid file directory':
-    ensure => directory,
-    path   => '/var/run/mongodb',
-    mode   => '0777',
+    ensure  => directory,
+    path    => '/var/run/mongodb',
+    mode    => '0755',
+    owner   => 'mongod',
+    group   => 'mongod',
+    require => Package['mongodb_server'],
+    before  => Class['mongodb::server::service']
   } ->
   file { 'ensure mongod user limits':
     ensure => file,
@@ -122,13 +173,18 @@ class profile::mongodb (
     source => 'puppet:///modules/profile/etc/security/limits.d/mongod.conf',
     mode   => '0644',
     owner  => 'root',
-    group  => 'root'
+    group  => 'root',
   } ->
   rsyslog::snippet { '10_mongod':
     content => ":programname,contains,\"mongod\" /var/log/mongodb/mongod.log;CloudwatchAgentEOL\n& stop",
+  }
+
+
+
+  class { '::mongodb::client':
   } ->
   class { '::mongodb::server':
-    auth           => $_mongo_auth_enable,
+    auth           => $mongo_auth_asked,
     bind_ip        => [$::ipaddress, '127.0.0.1'],
     replset        => $replset_name,
     replset_config => $replset_config,
@@ -139,9 +195,17 @@ class profile::mongodb (
     dbpath         => $dbpath,
     dbpath_fix     => true,
     logpath        => false,
-    syslog         => true
+    syslog         => true,
+    create_admin   => $create_admin,
+    admin_username => $admin_user,
+    admin_password => $admin_password
   } ->
-  class { '::mongodb::client':
+  profile::mongodb::wait_for_mongod { 'before auth':
+  } ->
+  class { '::profile::mongodb::auth':
+    auth_wanted          => $mongo_auth_asked,
+  } ->
+  profile::mongodb::wait_for_mongod { 'after auth':
   } ->
   class { '::profile::mongodb::roles':
     roles => $roles,
@@ -151,9 +215,6 @@ class profile::mongodb (
   } ->
   class { '::profile::mongodb::rs_config':
     replset_name => $replset_name,
-  } ->
-  class { '::profile::mongodb::collections':
-    collections => $collections,
   }
 
   if $storage_device {
@@ -167,5 +228,4 @@ class profile::mongodb (
 
   contain ::mongodb::server
   contain ::mongodb::client
-
 }
