@@ -56,14 +56,14 @@
     {
       "type": "file",
       "only": ["amazon"],
-      "source": "{{template_dir}}/yum-plugin-s3-iam-1.0.2-1.noarch.rpm",
-      "destination": "/tmp/yum-plugin-s3-iam-1.0.2-1.noarch.rpm"
+      "source": "{{template_dir}}/yum-plugin-s3-iam-1.2.2-1.noarch.rpm",
+      "destination": "/tmp/yum-plugin-s3-iam-1.2.2-1.noarch.rpm"
     },
     {
       "type": "shell",
       "only": ["amazon"],
       "inline": [
-        "rpm -Uv --replacepkgs /tmp/yum-plugin-s3-iam-1.0.2-1.noarch.rpm"
+        "rpm -Uv --replacepkgs /tmp/yum-plugin-s3-iam-1.2.2-1.noarch.rpm"
       ]
     },
     {
