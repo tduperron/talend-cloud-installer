@@ -30,8 +30,6 @@ common_packages:
     provider: 'pip'
   'lnav':
     ensure: 'installed'
-  'screen':
-    ensure: 'installed'
 
 packagecloud_repos:
   'talend/other':
