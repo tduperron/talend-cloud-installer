@@ -89,6 +89,14 @@ shared_examples 'profile::kafka' do
     it { should_not include 'zipkin' }
   end
 
+  #Verifying topics creation
+  describe "Verifying topic creation on zookeeper '" + zookeepernodes + "' for dataprep" do
+    subject { command('/opt/kafka/bin/kafka-topics.sh --list --zookeeper "'+ zookeepernodes + '"').stdout }
+    it { should include 'dataprep' }
+    it { should include 'dataprep-unique' }
+    it { should include 'dataprep-broadcast' }
+  end
+
   describe "Verifying topic sharding on zookeeper '" + zookeepernodes + "' for dispatcher" do
     subject { command('/opt/kafka/bin/kafka-topics.sh --describe --topic dispatcher --zookeeper "'+ zookeepernodes + '"').stdout }
     it { should include 'Topic:dispatcher' }
