@@ -90,16 +90,34 @@ kafka_applications_cluster_ha:
     data-history: {}
     schemas: {}
     schemas-references: {}
-    dataset-changed: {}
-    datastore-changed: {}
-    app-to-runtime: {}
-    runtime-to-app: {}
+    dataset-changed:
+      topic_options:
+        retention.ms: "3600000" # 1H
+    datastore-changed:
+      topic_options:
+        retention.ms: "3600000" # 1H
+    app-to-runtime:
+      topic_options:
+        retention.ms: "3600000" # 1H
+    runtime-to-app:
+      topic_options:
+        retention.ms: "3600000" # 1H
     notifications: {}
-    websocket-to-app: {}
-    app-to-websocket: {}
-    logs-app-to-runtime: {}
-    logs-runtime-to-app: {}
-    userflow-changed: {}
+    websocket-to-app:
+      topic_options:
+        retention.ms: "3600000" # 1H
+    app-to-websocket:
+      topic_options:
+        retention.ms: "3600000" # 1H
+    logs-app-to-runtime:
+      topic_options:
+        retention.ms: "3600000" # 1H
+    logs-runtime-to-app:
+      topic_options:
+        retention.ms: "3600000" # 1H
+    userflow-changed:
+      topic_options:
+        retention.ms: "3600000" # 1H
     impact-analysis-offsets:
       partitions: 1
     dqDictionary:
@@ -127,16 +145,34 @@ kafka_applications_cluster_simple:
     data-history: {}
     schemas: {}
     schemas-references: {}
-    dataset-changed: {}
-    datastore-changed: {}
-    app-to-runtime: {}
-    runtime-to-app: {}
+    dataset-changed:
+      topic_options:
+        retention.ms: "3600000" # 1H
+    datastore-changed:
+      topic_options:
+        retention.ms: "3600000" # 1H
+    app-to-runtime:
+      topic_options:
+        retention.ms: "3600000" # 1H
+    runtime-to-app:
+      topic_options:
+        retention.ms: "3600000" # 1H
     notifications: {}
-    websocket-to-app: {}
-    app-to-websocket: {}
-    logs-app-to-runtime: {}
-    logs-runtime-to-app: {}
-    userflow-changed: {}
+    websocket-to-app:
+      topic_options:
+        retention.ms: "3600000" # 1H
+    app-to-websocket:
+      topic_options:
+        retention.ms: "3600000" # 1H
+    logs-app-to-runtime:
+      topic_options:
+        retention.ms: "3600000" # 1H
+    logs-runtime-to-app:
+      topic_options:
+        retention.ms: "3600000" # 1H
+    userflow-changed:
+      topic_options:
+        retention.ms: "3600000" # 1H
     impact-analysis-offsets:
       partitions: 1
     dqDictionary:
