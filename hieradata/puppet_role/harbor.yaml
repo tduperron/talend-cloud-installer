@@ -1,0 +1,11 @@
+---
+profile::docker::registry::harbor::version: "1.4.0"
+profile::docker::registry::harbor::checksum: '5fc9bfcf0aadd5a44d5c568b5d007113'
+profile::docker::registry::harbor::install_dir: '/opt'
+
+# TODO (bsemperlotti): Manage Harbor logs for cloudwatch integration
+#cloudwatchlog_files:
+#  "/talend/tic/%{::main_stack}/%{::puppet_role}/srv/tomcat/ipaas-srv/logs/catalina.out":
+#    path: '/srv/tomcat/ipaas-srv/logs/catalina.out'
+#  "/talend/tic/%{::main_stack}/%{::puppet_role}/srv/tomcat/ipaas-srv/logs/ipaas-api.log":
+#    path: '/srv/tomcat/ipaas-srv/logs/ipaas-api.log'

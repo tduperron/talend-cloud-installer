@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+echo "Pre-loading docker images"
+FILES="<%= @install_dir %>/harbor/ha/docker-compose.yml <%= @install_dir %>/harbor/ha/docker-compose.clair.yml"
+IMAGES=$(cat ${FILES} | grep image | sed -e "s/[[:space:]]*\(image.*\)/\1/g" | cut -d" " -f2 | xargs)
+for IMAGE in ${IMAGES}; do
+  docker pull ${IMAGE};
+done

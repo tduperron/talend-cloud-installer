@@ -269,3 +269,14 @@ suites:
     verifier:
       patterns:
         - 'spec/acceptance/ami_ecs_spec.rb'
+  - name: role-harbor
+    driver:
+      vagrantfiles:
+        - vagrant/second_disk.rb
+    provisioner:
+      custom_facts:
+        puppet_role: harbor
+        storage_device: /dev/sdb
+    verifier:
+      patterns:
+        - 'spec/acceptance/harbor_spec.rb'

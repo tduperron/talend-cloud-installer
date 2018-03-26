@@ -7,7 +7,10 @@
     "packagecloud_master_token": "{{env `PACKAGECLOUD_MASTER_TOKEN`}}",
     "installer_version": "",
     "source_ami": "",
-    "ami_description": ""
+    "ami_description": "",
+    "instance_type": "",
+    "ssh_username": "root",
+    "iam_instance_profile": ""
   },
   "builders": [
     {
@@ -34,6 +37,33 @@
         <% if ENV.has_key?('TAGS') and ENV['TAGS'].length > 0 %>
         <%= ENV['TAGS'].split(',').map{|v| "\"#{v.split('=').join('": "')}\""}.join(',') %>,
         <% end %>
+        "Name": "{{user `ami_name`}}-{{user `installer_version`}}-{{user `ami_type`}}",
+        "puppet_role": "{{user `puppet_role`}}",
+        "installer_version": "{{user `installer_version`}}"
+      }
+    },
+    {
+      "type": "amazon-ebs",
+      "name": "amazon-ebs",
+      "source_ami": "{{user `source_ami`}}",
+      "ami_name": "talend-{{user `ami_name`}}-{{user `installer_version`}}-{{timestamp}}-{{user `ami_type`}}",
+      "ami_description": "{{user `ami_description`}}",
+
+      "instance_type": "{{user `instance_type`}}",
+      "ssh_username": "{{user `ssh_username`}}",
+      "iam_instance_profile": "{{user `iam_instance_profile`}}",
+
+      <% if ENV.has_key?('REGIONS') and ENV['REGIONS'].length > 0 %>
+      "ami_regions": ["<%= ENV['REGIONS'].split(',').join('","') %>"],
+      <% end %>
+      <% if ENV.has_key?('ACCOUNTS') and ENV['ACCOUNTS'].length > 0 %>
+      "ami_users": ["<%= ENV['ACCOUNTS'].split(',').join('","') %>"],
+      <% end %>
+      "tags": {
+        <% if ENV.has_key?('TAGS') and ENV['TAGS'].length > 0 %>
+        <%= ENV['TAGS'].split(',').map{|v| "\"#{v.split('=').join('": "')}\""}.join(',') %>,
+        <% end %>
+        "Name": "{{user `ami_name`}}-{{user `installer_version`}}-{{user `ami_type`}}",
         "puppet_role": "{{user `puppet_role`}}",
         "installer_version": "{{user `installer_version`}}"
       }
@@ -42,26 +72,26 @@
   "provisioners": [
     {
       "type": "shell",
-      "only": ["amazon"],
+      "only": ["amazon", "amazon-ebs"],
       "inline": [
         "find /etc/yum.repos.d -type f -exec rm -rf {} +"
       ]
     },
     {
       "type": "file",
-      "only": ["amazon"],
+      "only": ["amazon", "amazon-ebs"],
       "source": "{{template_dir}}/etc/yum.repos.d/",
       "destination": "/etc/yum.repos.d"
     },
     {
       "type": "file",
-      "only": ["amazon"],
+      "only": ["amazon", "amazon-ebs"],
       "source": "{{template_dir}}/yum-plugin-s3-iam-1.0.2-1.noarch.rpm",
       "destination": "/tmp/yum-plugin-s3-iam-1.0.2-1.noarch.rpm"
     },
     {
       "type": "shell",
-      "only": ["amazon"],
+      "only": ["amazon", "amazon-ebs"],
       "inline": [
         "rpm -Uv --replacepkgs /tmp/yum-plugin-s3-iam-1.0.2-1.noarch.rpm"
       ]
@@ -96,7 +126,7 @@
     },
     {
       "type": "file",
-      "only": ["amazon"],
+      "only": ["amazon", "amazon-ebs"],
       "source": "{{template_dir}}/extra.yaml",
       "destination": "/tmp/puppet/hieradata/extra.yaml"
     },
@@ -135,7 +165,7 @@
     },
     {
       "type": "shell",
-      "only": ["amazon"],
+      "only": ["amazon", "amazon-ebs"],
       "inline": [
         "find /etc/yum.repos.d -type f ! -name puppetlabs.repo -exec rm -rf {} +"
       ]
@@ -149,7 +179,7 @@
       },
       "inline": [
         "rm -rf /tmp/puppet /tmp/packer",
-        "rm -rf /etc/yum.repos.d/talend-system.repo /etc/yum.repos.d/centos-talend.repo /etc/yum.repos.d/talend-ipaas.repo /etc/yum.repos.d/talend-sys-java.repo"
+        "rm -rf /etc/yum.repos.d/talend-system.repo /etc/yum.repos.d/centos-talend.repo /etc/yum.repos.d/talend-ipaas.repo /etc/yum.repos.d/talend-sys-java.repo /etc/yum.repos.d/docker.repo"
       ]
     }
   ]
