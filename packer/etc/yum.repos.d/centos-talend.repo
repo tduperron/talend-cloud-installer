@@ -13,7 +13,7 @@ gpgcheck=1
 gpgkey=http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-7
 enabled=1
 s3_enabled=true
-
+exclude=selinux-policy-3.13.1-166.el7_4.9.noarch
 
 [talend-epel]
 name=talend-epel
