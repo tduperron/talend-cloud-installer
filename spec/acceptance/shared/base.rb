@@ -22,9 +22,4 @@ shared_examples 'profile::base' do
     it { should include 'synchronised to' }
     it { should include 'time correct to within' }
   end
-
-  # Check Node Exporter
-  describe port(9100) do
-    it { should be_listening }
-  end
 end

@@ -27,9 +27,4 @@ describe 'role::ecs' do
     its(:content) { should include '"some_strings":["string1","string2"]' }
     its(:content) { should include '"some_urls":["https://url1.com/uri","http://localhost/uri"]' }
   end
-
-  # Check Cadvisor
-  describe port(9500) do
-    it { should be_listening }
-  end
 end
