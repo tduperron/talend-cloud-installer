@@ -5,8 +5,8 @@ shared_examples 'profile::base' do
   it_behaves_like 'profile::common::packages'
   it_behaves_like 'profile::common::cloudwatch'
   it_behaves_like 'profile::common::cloudwatchlogs'
-  it_behaves_like 'profile::common::node_exporter'
   it_behaves_like 'profile::common::ssm'
+  it_behaves_like 'monitoring::node_exporter'
 
   describe 'ntp configuration' do
     subject { file('/etc/ntp.conf').content }
@@ -21,5 +21,10 @@ shared_examples 'profile::base' do
     subject { command('ntpstat').stdout }
     it { should include 'synchronised to' }
     it { should include 'time correct to within' }
+  end
+
+  # Check Node Exporter
+  describe port(9100) do
+    it { should be_listening }
   end
 end

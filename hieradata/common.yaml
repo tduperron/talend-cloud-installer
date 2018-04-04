@@ -98,3 +98,13 @@ cloudwatch::metrics:
     threshold         : 80
     comparisonoperator: "GreaterThanThreshold"
 
+# Monitoring of installer-based components
+monitoring:
+  node_exporter:
+    user: 'node_exporter'
+    version: '0.15.2'
+    port: 9100
+  cadvisor:
+    user: 'cadvisor'
+    version: '0.29.0'
+    port: 9500

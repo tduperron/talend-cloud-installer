@@ -95,15 +95,6 @@ GIT
       puppetlabs-stdlib (< 5.0.0, >= 4.4.0)
 
 GIT
-  remote: https://github.com/Talend/puppet-monitoring.git
-  ref: 0.1.0.3
-  sha: 616a2abb6c3f62e9d210adab6bbc506a72533e5e
-  specs:
-    talend-monitoring (0.1.0)
-      puppet-archive (< 2.0.0, >= 1.0.0)
-      puppetlabs-stdlib (< 5.0.0, >= 4.20.0)
-
-GIT
   remote: https://github.com/Talend/puppet-nexus.git
   ref: master
   sha: 7224a29b89e661eccfa1c2beacaf1e322e285536
@@ -142,6 +133,11 @@ GITHUBTARBALL
   remote: Talend/puppet-dataprep_dataset
   specs:
     talend-dataprep_dataset (0.1.0.5)
+
+GITHUBTARBALL
+  remote: Talend/puppet-monitoring
+  specs:
+    talend-monitoring (0.1.0.4)
 
 GITHUBTARBALL
   remote: Talend/puppet-syncope
@@ -192,7 +188,7 @@ DEPENDENCIES
   talend-cloudwatchlogs (~> 0.0)
   talend-dataprep_dataset (~> 0.0)
   talend-kafka (>= 0)
-  talend-monitoring (>= 0)
+  talend-monitoring (= 0.1.0.4)
   talend-syncope (~> 0.0)
   talend-tic (~> 0.0)
   talend-user_accounts (~> 0.0)
