@@ -52,6 +52,5 @@ mod 'puppetlabs-postgresql',
 mod 'puppetlabs-mongodb',
   :git => 'https://github.com/Talend/puppet-mongodb.git',
   :ref => '0.18.x'
-mod 'talend-monitoring',
-  :git => 'https://github.com/Talend/puppet-monitoring.git',
-  :ref => '0.1.0.3'
+mod 'talend-monitoring', '0.1.0.4',
+  :github_tarball => 'Talend/puppet-monitoring'

@@ -47,4 +47,6 @@ class profile::docker::host (
     require                     => Sysctl['net.ipv4.conf.all.route_localnet', 'vm.max_map_count'],
   }
 
+  # Monitor Docker daemon & containers
+  include monitoring::cadvisor
 }
