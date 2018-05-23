@@ -109,9 +109,6 @@ kafka_applications_cluster_ha:
     app-to-websocket:
       topic_options:
         retention.ms: "3600000" # 1H
-    logs-app-to-runtime:
-      topic_options:
-        retention.ms: "3600000" # 1H
     logs-runtime-to-app:
       topic_options:
         retention.ms: "3600000" # 1H
