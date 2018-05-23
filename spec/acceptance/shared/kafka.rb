@@ -87,6 +87,7 @@ shared_examples 'profile::kafka' do
     it { should include 'container-events' }
     it { should_not include 'tpsvclogs' }
     it { should_not include 'zipkin' }
+    it { should include 'provisioning' }
   end
 
   #Verifying topics creation
