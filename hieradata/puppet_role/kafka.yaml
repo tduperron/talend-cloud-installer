@@ -124,6 +124,7 @@ kafka_applications_cluster_ha:
     dataprep: {}
     dataprep-unique: {}
     dataprep-broadcast: {}
+    provisioning: {}
 
 kafka_applications_cluster_simple:
   kafka_topics_default_partitions: 2
@@ -179,6 +180,7 @@ kafka_applications_cluster_simple:
     dataprep: {}
     dataprep-unique: {}
     dataprep-broadcast: {}
+    provisioning: {}
 
 # Example of tuning for profiling kafka:
 # <kafka_yaml_profile_name>:
