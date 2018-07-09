@@ -336,3 +336,23 @@ suites:
     verifier:
       patterns:
         - 'spec/acceptance/ami_ecs_spec.rb'
+  - name: ami-tac-tests
+    driver:
+      vagrantfiles:
+        - vagrant/2_cpus.rb
+        - vagrant/second_disk.rb
+      vm_name: ami-tac-tests
+      customize:
+        name: ami-tac-tests
+    provisioner:
+      modules_path: site:modules
+      resolve_with_librarian_puppet: false
+      custom_pre_install_command: |
+          sudo yum install -y rsync
+      puppet_environment: ami
+      custom_facts:
+        puppet_role: ecs
+        storage_device: /dev/sdb
+    verifier:
+      patterns:
+        - 'spec/acceptance/ami_ecs_spec.rb'

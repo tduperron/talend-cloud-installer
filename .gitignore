@@ -18,3 +18,4 @@ packer.log
 packer/extra.yaml
 packer/template.json
 packer/*.rpm
+.vscode
