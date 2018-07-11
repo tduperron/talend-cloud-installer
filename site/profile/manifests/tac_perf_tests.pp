@@ -1,22 +1,35 @@
-class profile::test_launcher (
-  $mysql_on_same_host   = undef,
-) {
+#
+# Profile for TAC Performance tests
+#
+class profile::tac_perf_tests () {
+  if $::run_mysql == 'true' {
 
-  file { '/opt/talend/':
-    ensure => 'directory',
-  }
+      $network_name = 'tactests-vnet'
 
-  file { '/opt/talend/tmc/':
-    ensure => 'directory',
-  }
-  file { '/opt/talend/tmc/tests_variables.sh':
-    content => "#!/bin/bash
-export TMC_URL=${tmc_url}
-export SCIM_URL=${scim_url}
-export LOGIN_URL=${login_url}
-export PSWSEED=${tmc_pswseed}
-export REPORT_BUCKET=${report_bucket}
-"
-  }
+      docker_network { $network_name:
+        ensure => present,
+        driver => 'bridge',
+      }
 
+
+      docker::run { 'mysql':
+        image           => $::mysql_image,
+        ports           => ['3306'],
+        expose          => ['3306'],
+        net             => $network_name,
+        memory_limit    => '1g',
+        # cpuset          => ['0', '3'],
+        restart_service => false,
+        pull_on_start   => true,
+        extra_parameters => [ '--restart=no' ],
+      }
+
+      # docker::run { 'helloworld':
+      #   image   => 'nginx',
+      #   command => '/bin/sh -c "while true; do echo hello world; sleep 1; done"',
+      # }
+
+      info('koko')
+
+  }
 }

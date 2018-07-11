@@ -349,9 +349,9 @@ suites:
       resolve_with_librarian_puppet: false
       custom_pre_install_command: |
           sudo yum install -y rsync
-      puppet_environment: ami
+      # puppet_environment: ami
       custom_facts:
-        puppet_role: ecs
+        puppet_role: tac_perf_tests
         storage_device: /dev/sdb
     verifier:
       patterns:
