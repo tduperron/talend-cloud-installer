@@ -349,10 +349,13 @@ suites:
       resolve_with_librarian_puppet: false
       custom_pre_install_command: |
           sudo yum install -y rsync
+          sudo bash -c 'echo vagrant ALL=NOPASSWD:/usr/bin/rsync >> /etc/sudoers'
       # puppet_environment: ami
       custom_facts:
         puppet_role: tac_perf_tests
         storage_device: /dev/sdb
+        registry_bucket: us-east-1-devops-talend-com
+        registry_prefix: /
     verifier:
       patterns:
         - 'spec/acceptance/ami_ecs_spec.rb'
