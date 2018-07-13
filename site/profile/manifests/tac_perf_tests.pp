@@ -119,7 +119,7 @@ class profile::tac_perf_tests (
     env                       => $tac_disc_vars
   }
 
-  docker::run['tac'] ~> docker::run['tac-discovery']
+  Docker::Run['tac'] ~> Docker::Run['tac-discovery']
 
   if $run_mysql {
 
