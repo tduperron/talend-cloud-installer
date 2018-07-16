@@ -354,8 +354,8 @@ suites:
       custom_facts:
         puppet_role: tac_perf_tests
         storage_device: /dev/sdb
-        registry_bucket: us-east-1-devops-talend-com
-        registry_prefix: /
+        registry_s3_bucket: us-east-1-devops-talend-com
+        registry_s3_prefix: /
     verifier:
       patterns:
         - 'spec/acceptance/ami_ecs_spec.rb'
