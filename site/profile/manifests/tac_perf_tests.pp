@@ -119,8 +119,6 @@ class profile::tac_perf_tests (
     env                       => $tac_disc_vars
   }
 
-  Docker::Run['tac'] ~> Docker::Run['tac-discovery']
-
   if $run_mysql {
 
       exec {'check_mysql_systemd':
@@ -145,5 +143,12 @@ class profile::tac_perf_tests (
         extra_parameters => [ '--restart=no --rm' ],
         require          => Exec['stop_mysql']
       }
+
+      Docker::Run['registry'] -> Docker::Run['mysql'] -> Docker::Run['tac'] ~> Docker::Run['tac-discovery']
+
+  } else {
+
+    Docker::Run['registry'] -> Docker::Run['tac'] ~> Docker::Run['tac-discovery']
+
   }
 }
