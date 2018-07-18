@@ -25,6 +25,9 @@ class profile::tac_perf_tests (
   $hosted_zone = 'ZA03FQPZM492O'
 ) {
 
+  require ::profile::docker::host
+  require ::profile::docker::registry
+
   $network_name = 'tactests-vnet'
   $state_dir_path = '/tmp/app_state'
 
@@ -147,11 +150,11 @@ class profile::tac_perf_tests (
         depends          => [ 'registry' ]
       }
 
-      Docker::Run['mysql'] -> Docker::Run['tac'] ~> Docker::Run['tac-discovery']
+      Docker_network[$network_name] -> Docker::Run['mysql'] -> Docker::Run['tac'] -> Docker::Run['tac-discovery']
 
   } else {
 
-    Docker::Run['tac'] ~> Docker::Run['tac-discovery']
+    Docker_network[$network_name] -> Docker::Run['tac'] -> Docker::Run['tac-discovery']
 
   }
 }
