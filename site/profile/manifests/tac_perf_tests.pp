@@ -85,7 +85,7 @@ class profile::tac_perf_tests (
     env                       => $tac_env_vars,
     volumes                   => [ "${state_dir_path}:${state_dir_path}" ],
     require                   => Exec['stop_tac'],
-    depends                   => [ 'registry' ]
+    after                     => [ 'registry' ]
   }
 
   $temp_tac_disc_vars = [ 'APP_STATE_LOOKUP=VOLUME',
@@ -121,7 +121,7 @@ class profile::tac_perf_tests (
     volumes                   => [ "${state_dir_path}:${state_dir_path}" ],
     extra_parameters          => [ '--restart=no --rm' ],
     env                       => $tac_disc_vars,
-    depends                   => [ 'registry' ]
+    after                     => [ 'registry' ]
   }
 
   if $run_mysql {
@@ -147,7 +147,7 @@ class profile::tac_perf_tests (
         pull_on_start    => true,
         extra_parameters => [ '--restart=no --rm' ],
         require          => Exec['stop_mysql'],
-        depends          => [ 'registry' ]
+        after            => [ 'registry' ]
       }
 
       Docker_network[$network_name] -> Docker::Run['mysql'] -> Docker::Run['tac'] -> Docker::Run['tac-discovery']
