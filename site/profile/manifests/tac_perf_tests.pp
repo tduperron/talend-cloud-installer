@@ -144,11 +144,11 @@ class profile::tac_perf_tests (
         require          => Exec['stop_mysql']
       }
 
-      Docker::Run['registry'] -> Docker::Run['mysql'] -> Docker::Run['tac'] ~> Docker::Run['tac-discovery']
+      Docker::Run['mysql'] -> Docker::Run['tac'] ~> Docker::Run['tac-discovery']
 
   } else {
 
-    Docker::Run['registry'] -> Docker::Run['tac'] ~> Docker::Run['tac-discovery']
+    Docker::Run['tac'] ~> Docker::Run['tac-discovery']
 
   }
 }
