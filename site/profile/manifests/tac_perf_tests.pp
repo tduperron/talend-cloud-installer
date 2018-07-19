@@ -137,17 +137,20 @@ class profile::tac_perf_tests (
       }
 
       docker::run { 'mysql':
-        ensure           => $ensure,
-        image            => $mysql_image,
-        ports            => ['3306'],
-        expose           => ['3306'],
-        net              => $network_name,
-        memory_limit     => '1g',
-        restart_service  => false,
-        pull_on_start    => true,
-        extra_parameters => [ '--restart=no --rm' ],
-        require          => Exec['stop_mysql'],
-        after            => [ 'registry' ]
+        ensure                   => $ensure,
+        image                    => $mysql_image,
+        ports                    => ['3306'],
+        expose                   => ['3306'],
+        net                      => $network_name,
+        memory_limit             => '1g',
+        restart_service          => false,
+        pull_on_start            => true,
+        extra_parameters         => [ '--restart=no --rm' ],
+        require                  => Exec['stop_mysql'],
+        after                    => [ 'registry' ],
+        extra_systemd_parameters => {
+                                        'StartLimitInterval' => 60
+                                  }
       }
 
       Docker_network[$network_name] -> Docker::Run['mysql'] -> Docker::Run['tac'] -> Docker::Run['tac-discovery']
