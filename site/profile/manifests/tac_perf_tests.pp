@@ -149,7 +149,7 @@ class profile::tac_perf_tests (
         require                  => Exec['stop_mysql'],
         after                    => [ 'registry' ],
         extra_systemd_parameters => {
-                                        'StartLimitInterval' => 60
+                                        'RestartSec' => 20
                                   }
       }
 
