@@ -65,6 +65,13 @@ class profile::tac_perf_tests (
                           "\"JAVA_OPTS=${tac_java_opts}\""
                         ]
 
+
+  if $run_mysql != undef {
+    $tac_depends_arr = [ 'registry', 'mysql' ]
+  } else {
+    $tac_depends_arr = [ 'registry' ]
+  }
+
   if $mysql_override != undef {
     $tac_env_vars = concat($temp_tac_env_vars, "MYSQL_SERVER_OVERRIDE=${mysql_override}")
     notice("MySQL server name was overrided with: ${mysql_override}")
@@ -85,7 +92,7 @@ class profile::tac_perf_tests (
     env                       => $tac_env_vars,
     volumes                   => [ "${state_dir_path}:${state_dir_path}" ],
     require                   => Exec['stop_tac'],
-    after                     => [ 'registry' ]
+    after                     => $tac_depends_arr
   }
 
   $temp_tac_disc_vars = [ 'APP_STATE_LOOKUP=VOLUME',
@@ -121,7 +128,7 @@ class profile::tac_perf_tests (
     volumes                   => [ "${state_dir_path}:${state_dir_path}" ],
     extra_parameters          => [ '--restart=no --rm' ],
     env                       => $tac_disc_vars,
-    after                     => [ 'registry' ]
+    after                     => [ 'registry', 'tac' ]
   }
 
   if $run_mysql {
@@ -153,11 +160,11 @@ class profile::tac_perf_tests (
                                   }
       }
 
-      Docker_network[$network_name] -> Docker::Run['mysql'] -> Docker::Run['tac'] -> Docker::Run['tac-discovery']
+      Docker_network[$network_name] -> Docker::Run['mysql'] -> Docker::Run['tac'] ~> Docker::Run['tac-discovery']
 
   } else {
 
-    Docker_network[$network_name] -> Docker::Run['tac'] -> Docker::Run['tac-discovery']
+    Docker_network[$network_name] -> Docker::Run['tac'] ~> Docker::Run['tac-discovery']
 
   }
 }
