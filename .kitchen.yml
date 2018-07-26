@@ -356,6 +356,8 @@ suites:
         storage_device: /dev/sdb
         registry_s3_bucket: us-east-1-devops-talend-com
         registry_s3_prefix: /
+        tac_image: localhost:5000/talend/tacperf-tac:latest
+        mysql_image: localhost:5000/talend/tacperf-mysql:latest
     verifier:
       patterns:
         - 'spec/acceptance/ami_ecs_spec.rb'
