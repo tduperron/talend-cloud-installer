@@ -124,9 +124,15 @@ kafka_applications_cluster_ha:
       topic_options:
         retention.bytes: "5368709120" # 5G
         retention.ms: "648000000" # 7.5d
-    dataprep: {}
-    dataprep-unique: {}
-    dataprep-broadcast: {}
+    dataprep:
+      topic_options:
+        retention.ms: "1800000" # 30min
+    dataprep-unique:
+      topic_options:
+        retention.ms: "1800000" # 30min
+    dataprep-broadcast:
+      topic_options:
+        retention.ms: "1800000" # 30min
     provisioning: {}
 
 kafka_applications_cluster_simple:
@@ -179,9 +185,15 @@ kafka_applications_cluster_simple:
       topic_options:
         retention.bytes: "5368709120" # 5G
         retention.ms: "648000000" # 7.5d
-    dataprep: {}
-    dataprep-unique: {}
-    dataprep-broadcast: {}
+    dataprep:
+      topic_options:
+        retention.ms: "1800000" # 30min
+    dataprep-unique:
+      topic_options:
+        retention.ms: "1800000" # 30min
+    dataprep-broadcast:
+      topic_options:
+        retention.ms: "1800000" # 30min
     provisioning: {}
 
 # Example of tuning for profiling kafka:
