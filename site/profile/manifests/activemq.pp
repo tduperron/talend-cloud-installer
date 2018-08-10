@@ -16,23 +16,25 @@ class profile::activemq {
   # this should be replaced with more sophisticated solution in the future
   $ec2_userdata = pick_default($::ec2_userdata, '')
   if $ec2_userdata =~ /InstanceA/ {
-    # The part for AMS password is totaly outdated: https://jira.talendforge.org/browse/DEVOPS-4952
+    $update_user_password = "/usr/bin/psql \
+    -U ams \
+    -h ${::profile::postgresql::hostname} \
+    -d ams \
+    -c \"update amqsec_system_users set password = '\$AMS_ADMIN_PASSWORD' where username = 'admin'\""
 
     class { '::activemq': } ->
-    class { '::profile::postgresql::provision': }
-
+    class { '::profile::postgresql::provision': } ->
+    exec { 'update the amqsec_system_users':
+      environment => [
+        "PGPASSWORD=${::profile::postgresql::password}",
+        "AMS_ADMIN_PASSWORD=${::profile::postgresql::password}"
+      ],
+      command     => $update_user_password,
+    }
     contain ::activemq
     contain ::profile::postgresql::provision
-
-    if (( $::activemq::persistence == 'postgres')
-      and (($::activemq::service_ensure == 'running')
-        or ($::activemq::service_ensure == 'true'))) {
-        class { '::profile::postgresql::activemq':
-          require => Class['::activemq']
-        }
-    }
-
   } else {
     contain ::activemq
   }
+
 }
