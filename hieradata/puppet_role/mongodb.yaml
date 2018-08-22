@@ -92,7 +92,7 @@ cloudwatchlog_files:
 # IPAAS MongoDB replicaset profile
 mongodb_default_profile:
   replset_name: 'tipaas'
-  storage_engine: 'mmapv1'
+  storage_engine: 'wiredTiger'
   users:
     admin:
       db_address: 'ipaas'

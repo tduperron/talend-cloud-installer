@@ -1,0 +1,4 @@
+# File managed by Puppet, do not edit manually
+.include /usr/lib/systemd/system/mongod.service
+[Service]
+Type=simple

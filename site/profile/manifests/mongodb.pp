@@ -201,6 +201,17 @@ class profile::mongodb (
     content => ":programname,contains,\"mongod\" /var/log/mongodb/mongod.log;CloudwatchAgentEOL\n& stop",
   }
 
+  file { 'systemd-mongod-override':
+    ensure  => file,
+    path    => '/etc/systemd/system/mongod.service',
+    source  => 'puppet:///modules/profile/etc/systemd/system/mongod.service',
+    mode    => '0644',
+    owner   => 'root',
+    group   => 'root',
+    require => Package['mongodb_server'],
+    before  => Class['mongodb::server::service']
+  }
+
 
 
   class { '::mongodb::client':

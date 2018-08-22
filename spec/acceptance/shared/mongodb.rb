@@ -21,6 +21,17 @@ shared_examples 'profile::mongodb' do
     end
   end
 
+  describe 'Verifying mongod systemd override' do
+    describe file('/etc/systemd/system/mongod.service') do
+      it { should be_file }
+      its(:content) { should include '# File managed by Puppet, do not edit manually' }
+      its(:content) { should include 'Type=simple' }
+    end
+    describe command('/bin/systemctl --no-pager show mongod.service') do
+      its(:stdout) { should include 'Type=simple' }
+    end
+  end
+
   describe 'Verifying swap' do
     describe file('/var/lib/mongo/mongo.swap') do
       it { should be_file }
@@ -32,7 +43,7 @@ shared_examples 'profile::mongodb' do
 
   describe 'Verify MongoDB major version and facts' do
     describe command('/usr/bin/facter -p mongodb_version') do
-      its(:stdout) { is_expected.to match(/^[2-3]/) }
+      its(:stdout) { is_expected.to match(/^[3]/) }
     end
     describe command('/usr/bin/facter -p mongodb_is_master') do
       # with auth enabled, the mongodb facter can't connect
@@ -186,6 +197,13 @@ shared_examples 'profile::mongodb' do
       it { should be_file }
       its(:content) { should include '# THIS FILE IS AUTOMATICALLY DISTRIBUTED BY PUPPET.' }
       its(:content) { should include ' /etc/logrotate.d/hourly ' }
+    end
+  end
+
+  describe 'credential storage' do
+    describe file('/root/.mongorc.js') do
+      it { should be_file }
+      its(:content) { should include ' db.auth(\'sreadmin\', \'mypassword\')' }
     end
   end
 

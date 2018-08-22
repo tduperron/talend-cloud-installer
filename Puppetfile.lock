@@ -86,15 +86,6 @@ GIT
       puppetlabs-stdlib (>= 4.11.0)
 
 GIT
-  remote: https://github.com/Talend/puppet-mongodb.git
-  ref: 0.18.x
-  sha: e59ad3a9c30fc68ea903c445c1a37ea1ce6e74ef
-  specs:
-    puppetlabs-mongodb (0.18.0)
-      puppetlabs-apt (< 3.0.0, >= 2.1.0)
-      puppetlabs-stdlib (< 5.0.0, >= 4.4.0)
-
-GIT
   remote: https://github.com/Talend/puppet-nexus.git
   ref: master
   sha: 7224a29b89e661eccfa1c2beacaf1e322e285536
@@ -133,6 +124,11 @@ GITHUBTARBALL
   remote: Talend/puppet-dataprep_dataset
   specs:
     talend-dataprep_dataset (0.1.0.5)
+
+GITHUBTARBALL
+  remote: Talend/puppet-mongodb
+  specs:
+    puppetlabs-mongodb (0.18.1)
 
 GITHUBTARBALL
   remote: Talend/puppet-monitoring
@@ -175,7 +171,7 @@ DEPENDENCIES
   puppetlabs-java (~> 1.0)
   puppetlabs-limits (~> 0.0)
   puppetlabs-lvm (~> 0.0)
-  puppetlabs-mongodb (>= 0)
+  puppetlabs-mongodb (= 0.18.1)
   puppetlabs-ntp (~> 4.0)
   puppetlabs-postgresql (>= 0)
   puppetlabs-stdlib (~> 4.0)
