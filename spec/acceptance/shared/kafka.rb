@@ -50,6 +50,17 @@ shared_examples 'profile::kafka' do
      it { should include '    DiskSpaceKafka:' }
   end
 
+  describe 'Kafka configuration' do
+    subject { file('/opt/kafka/config/server.properties').content }
+    it { should include 'managed by Puppet' }
+    it { should include 'auto.create.topics.enable=false' }
+    it { should include 'log.cleanup.policy=delete' }
+    it { should include 'log.retention.bytes=536870912' }
+    it { should include 'log.segment.bytes=67108864' }
+    it { should include 'log.roll.ms=1200000' }
+    it { should include 'log.retention.ms=43200000'}
+  end
+
    begin
      Facter.zookeeper_nodes
    rescue
@@ -105,14 +116,19 @@ shared_examples 'profile::kafka' do
     it { should include 'ReplicationFactor:1' }
   end
 
-  describe "Verifying topic configuration on zookeeper '" + zookeepernodes + "' for dispatcher" do
-    subject { command('/opt/kafka/bin/kafka-configs.sh --zookeeper "'+ zookeepernodes + '" --entity-type topics --entity-name dispatcher --describe').stdout }
-    it { should include 'retention.bytes=536870912' }
+  describe "Verifying topic configuration on zookeeper '" + zookeepernodes + "' for app-to-runtime" do
+    subject { command('/opt/kafka/bin/kafka-configs.sh --zookeeper "'+ zookeepernodes + '" --entity-type topics --entity-name app-to-runtime --describe').stdout }
+    it { should include 'retention.ms=3600000' }
+    it { should include 'segment.ms=300000' }
+    it { should include 'retention.bytes=268435456' }
+    it { should include 'max.message.bytes=10485760' }
   end
 
   describe "Verifying topic configuration on zookeeper '" + zookeepernodes + "' for dqDictionary" do
     subject { command('/opt/kafka/bin/kafka-configs.sh --zookeeper "'+ zookeepernodes + '" --entity-type topics --entity-name dqDictionary --describe').stdout }
     it { should include 'retention.bytes=6442450944' }
+    it { should include 'retention.ms=648000000' }
+    it { should include 'segment.ms=3600000' }
   end
 
   #Verifying topic usability
