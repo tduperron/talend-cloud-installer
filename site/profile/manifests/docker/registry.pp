@@ -13,6 +13,7 @@ class profile::docker::registry (
   $s3_bucket         = undef,
   $s3_prefix         = undef,
   $env               = {},
+  $registries        = {},
 
 ) {
 
@@ -63,6 +64,19 @@ class profile::docker::registry (
       volumes => $volumes,
       env     => join_keys_to_values(merge($options, $env), '='),
     }
+
+    # Configure access to authenticated registries
+    file { '/root/.docker':
+      ensure => 'directory',
+      owner  => 'root',
+      mode   => '0750',
+    } ->
+    file { '/root/.docker/config.json':
+      ensure  => 'file',
+      content => template('profile/root/.docker/config.json.erb'),
+      mode    => '0600',
+    }
+
   } else {
     notice('Skipping Docker Registry initialization due to the ensure parameter was set to absent.')
   }
