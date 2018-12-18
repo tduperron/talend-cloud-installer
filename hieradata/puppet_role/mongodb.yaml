@@ -139,3 +139,10 @@ mongodb_tds_profile:
           db: 'admin'
         - role: 'readWriteAnyDatabase'
           db: 'admin'
+    notification:
+      db_address: 'notification'
+      username: 'notification'
+      password: '%{::master_password}'
+      roles:
+        - role: 'dbOwner'
+          db: 'notification'

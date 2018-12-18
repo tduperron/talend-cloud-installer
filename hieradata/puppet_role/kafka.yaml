@@ -76,7 +76,7 @@ kafka_customers_logs_cluster_ha: # estimated max cluster size: 96 GiB + customer
         retention.ms: "43200000"      # 12h
         retention.bytes: "4294967296" # 4GiB per partition
 
-kafka_applications_cluster_ha: # estimated max cluster size: 84 GiB + customers offsets => 40 GiB per node with security
+kafka_applications_cluster_ha: # estimated max cluster size: 90 GiB (22 topics with default + 3 with custom size) + customers offsets  => 50 GiB per node with security
   kafka_topics_default_partitions: 12
   kafka_topics_default_replication: 2
   log_level: 'INFO'
@@ -158,13 +158,17 @@ kafka_applications_cluster_ha: # estimated max cluster size: 84 GiB + customers 
       topic_options:
         retention.ms: "3600000" # 1H
         segment.ms: "300000"    # 5mn
+    tds-task-notification:
+      topic_options:
+        retention.ms: "3600000" # 1H
+        segment.ms: "300000"    # 5mn
 
-kafka_applications_cluster_simple:   # estimated max data size: 27 GiB + customer_offsets
+kafka_applications_cluster_simple:   # estimated max data size: 28 GiB (22 topics with default + 3 with custom size) + customer_offsets
   kafka_topics_default_partitions: 2
   kafka_topics_default_replication: 1
   kafka_broker_config:
     log.cleanup.policy: 'delete'
-    log.retention.bytes: "536870912" # 512MiB
+    log.retention.bytes: "536870912" # 512MiB, per partition => default topic sizing: 2 * 528MiB = 1 GiB per topic on cluster
     log.segment.bytes: "67108864"    # 64 MiB max per segment
     log.roll.ms: "1200000"           # a segment will be used (written) for max 20mn (after 20mn, a new file is created)
     log.retention.ms: "43200000"     # 12h
@@ -205,10 +209,6 @@ kafka_applications_cluster_simple:   # estimated max data size: 27 GiB + custome
       topic_options:
         retention.ms: "3600000" # 1H
         segment.ms: "300000"    # 5mn
-    logs-app-to-runtime:
-      topic_options:
-        retention.ms: "3600000" # 1H
-        segment.ms: "300000"    # 5mn
     logs-runtime-to-app:
       topic_options:
         retention.ms: "3600000" # 1H
@@ -220,7 +220,7 @@ kafka_applications_cluster_simple:   # estimated max data size: 27 GiB + custome
     impact-analysis-batch: {}
     dqDictionary:
       topic_options:
-        retention.bytes: "2684354560" # 2,5GiB
+        retention.bytes: "2684354560" # 2,5GiB => 5GiB per topic
         retention.ms: "648000000" # 7.5d
         segment.ms: "3600000"     # 1h
     dataprep:
@@ -241,6 +241,10 @@ kafka_applications_cluster_simple:   # estimated max data size: 27 GiB + custome
         retention.ms: "3600000" # 1H
         segment.ms: "300000"    # 5mn
     sharing-changed:
+      topic_options:
+        retention.ms: "3600000" # 1H
+        segment.ms: "300000"    # 5mn
+    tds-task-notification:
       topic_options:
         retention.ms: "3600000" # 1H
         segment.ms: "300000"    # 5mn
