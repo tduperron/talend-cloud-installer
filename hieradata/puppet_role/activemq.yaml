@@ -10,6 +10,7 @@ common_packages:
 
 activemq::version: '5.15.7-4'
 activemq::jmx_enabled: true
+activemq::jmx_agent_opts: "-javaagent:/opt/jmx_exporter-%{hiera('monitoring::jmx_exporter::version')}/jmx_prometheus_javaagent-%{hiera('monitoring::jmx_exporter::version')}.jar=%{hiera('jmx_exporter_port')}:/opt/jmx_exporter-%{hiera('monitoring::jmx_exporter::version')}/activemq.yaml"
 activemq::network_password: "%{::master_password}"
 activemq::network_user: 'activemq'
 activemq::brokers: '%{::activemq_nodes}'
@@ -27,6 +28,8 @@ activemq::persistence_pg_password: "%{::master_password}"
 activemq::dispatcher_response_queue: "ipaas.talend.dispatcher.response.queue"
 activemq::inactive_timeout_before_cleanup: 60000
 activemq::ams_security_version: '%{::ams_plugin_version}'
+
+monitoring::jmx_exporter::jmx_exporter_service: 'activemq'
 
 profile::postgresql::roles:
   ams:
