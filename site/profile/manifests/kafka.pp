@@ -25,7 +25,10 @@ class profile::kafka (
   include ::logrotate
   include ::profile::common::concat
   include ::profile::common::cloudwatchlogs
-  include monitoring::jmx_exporter
+
+  class { '::monitoring::jmx_exporter':
+    before => Class['::kafka'],
+  }
 
   profile::register_profile { 'kafka': }
 

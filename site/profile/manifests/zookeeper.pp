@@ -12,7 +12,10 @@ class profile::zookeeper (
 
   include ::profile::common::concat
   include ::profile::common::cloudwatchlogs
-  include monitoring::jmx_exporter
+
+  class { '::monitoring::jmx_exporter':
+    before => Class['::zookeeper'],
+  }
 
   profile::register_profile { 'zookeeper': }
 

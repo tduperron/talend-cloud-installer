@@ -11,7 +11,10 @@ class profile::activemq(
 
   include ::profile::common::concat
   include ::profile::common::cloudwatchlogs
-  include monitoring::jmx_exporter
+
+  class { '::monitoring::jmx_exporter':
+    before => Class['::activemq'],
+  }
 
   profile::register_profile { 'activemq': }
 
