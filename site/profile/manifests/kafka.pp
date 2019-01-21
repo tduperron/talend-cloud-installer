@@ -133,6 +133,16 @@ class profile::kafka (
     notify  => Service['kafka']
   }
 
+  if $storage_device {
+    class { '::profile::common::mount_device::fixup_ownership':
+      path    => $kafka_datapath,
+      owner   => 'kafka',
+      group   => 'kafka',
+      require => [ User['kafka'], Group['kafka'] ],
+      notify  => Service['kafka']
+    }
+  }
+
   file { '/opt/kafka/config/log4j.properties':
     ensure  => 'present',
     owner   => 'kafka',
