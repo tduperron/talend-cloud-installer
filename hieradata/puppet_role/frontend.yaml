@@ -43,7 +43,7 @@ tic::frontend::redis_session_namespace: "%{::main_stack}Tipaas"
 tic::frontend::redis_session_port: "%{::redis_sessions_port}"
 tic::frontend::schema_discovery_service_nodes: "%{::tic_services_internal_nodes}"
 tic::frontend::scim_service_url: "%{::tpsvc_iam_scim_back_url}"
-tic::frontend::sts_host: '%{::syncope_nodes}'
+tic::frontend::sts_host: "%{::syncope_nodes}"
 tic::frontend::sts_password: "%{::master_password}"
 tic::frontend::sts_username: 'admin'
 tic::frontend::tcomp_static_ips: "%{::vpc_nat_ips}"
@@ -58,6 +58,7 @@ tic::frontend::webhooks_service_url: "http://%{::tic_services_external_nodes}:81
 tic::frontend::workspace_url: "/ipaas/services"
 tic::frontend::zipkin_kafka_servers: "%{::zipkin_kafka_servers}"
 tic::frontend::zipkin_kafka_topic: "%{::zipkin_kafka_topic}"
+tic::frontend::internal_domain: "%{::internal_domain}"
 
 logrotate::ensure: 'present'
 logrotate::hieramerge: true
