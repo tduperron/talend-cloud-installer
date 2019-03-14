@@ -4,7 +4,12 @@ shared_examples 'profile::zookeeper' do
   it_behaves_like 'profile::common::packagecloud_repos'
   it_behaves_like 'profile::common::cloudwatchlog_files', %w(
     /opt/apache-tomcat/logs/catalina.out
+    /var/log/zookeeper/zookeeper.log
   )
+
+  describe command('/usr/bin/sleep 120') do
+    its(:exit_status) { should eq 0 }
+  end
 
   describe port(2181) do
     it { should be_listening }
@@ -16,6 +21,11 @@ shared_examples 'profile::zookeeper' do
 
   describe package('jre-jce') do
     it { should_not be_installed }
+  end
+
+  describe 'Exhibitor package' do
+    subject { command('/bin/rpm -q netflix-exhibitor-tomcat') }
+    its(:stdout) { should include 'netflix-exhibitor-tomcat-1.7.1-1.x86_64' }
   end
 
   describe file('/etc/rc.d/init.d/zookeeper') do
@@ -45,5 +55,4 @@ shared_examples 'profile::zookeeper' do
   describe command('echo ruok | /bin/nc 127.0.0.1 2181') do
     its(:stdout) { should eq 'imok' }
   end
-
 end
