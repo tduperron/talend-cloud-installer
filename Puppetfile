@@ -24,7 +24,7 @@ metadata
 # A module from Github pre-packaged tarball
 # mod 'puppetlabs-apache', '0.6.0', :github_tarball => 'puppetlabs/puppetlabs-apache'
 
-mod 'talend-tic', '0.2.9.31.1',
+mod 'talend-tic', '0.x',
   :github_tarball => 'Talend/puppet-tic'
 mod 'talend-cloudwatchlogs', '0.x',
   :github_tarball => 'Talend/puppet-cloudwatchlogs'
@@ -49,5 +49,5 @@ mod 'puppetlabs-postgresql',
   :ref => 'master'
 mod 'puppetlabs-mongodb', '0.18.1',
   :github_tarball => 'Talend/puppet-mongodb'
-mod 'talend-monitoring', '0.1.0.22.1',
+mod 'talend-monitoring', '0.1.0.23',
   :github_tarball => 'Talend/puppet-monitoring'
