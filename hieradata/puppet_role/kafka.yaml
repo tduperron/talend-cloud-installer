@@ -179,7 +179,7 @@ kafka_applications_cluster_ha: # estimated max cluster size: 96 GiB (24 topics w
         segment.ms: "3600000"        # 1h
     tmc-live-updates:
       topic_options:
-        retention.ms: "90000"   # 15mn
+        retention.ms: "900000"   # 15mn
         segment.ms: "300000"    # 5mn
 
 kafka_applications_cluster_simple:   # estimated max data size: 30 GiB (24 topics with default + 3 with custom size) + customer_offsets
@@ -277,7 +277,7 @@ kafka_applications_cluster_simple:   # estimated max data size: 30 GiB (24 topic
         segment.ms: "3600000"     # 1h
     tmc-live-updates:
       topic_options:
-        retention.ms: "90000"   # 15mn
+        retention.ms: "900000"   # 15mn
         segment.ms: "300000"    # 5mn
 
 # Example of tuning for profiling kafka:
