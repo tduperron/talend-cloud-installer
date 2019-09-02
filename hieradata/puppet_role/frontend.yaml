@@ -94,6 +94,9 @@ cloudwatchlog_files:
   "/talend/tic/%{::main_stack}/%{::puppet_role}/srv/tomcat/ipaas-srv/logs/ipaas.log":
     path: '/srv/tomcat/ipaas-srv/logs/ipaas.log'
     datetime_format: '%Y-%m-%d %H:%M:%S,%f'
+  "/talend/tic/%{::main_stack}/%{::puppet_role}/srv/tomcat/ipaas-srv/logs/gc.log":
+    path: '/srv/tomcat/ipaas-srv/logs/gc.log'
+    datetime_format: '%Y-%m-%d %H:%M:%S,%f'
 
 nginx::config::server_tokens: 'off'
 nginx::config::keepalive_timeout: '5 5'
