@@ -12,6 +12,8 @@ class profile::base {
   } ->
   class { '::profile::common::packages':
   } ->
+  class { '::profile::common::osseclocal':
+  } ->
   class { '::profile::common::cloudwatchlogs':
   } ->
   class { '::profile::common::ssm':
