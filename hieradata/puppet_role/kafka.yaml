@@ -152,6 +152,10 @@ kafka_applications_cluster_ha: # estimated max cluster size: 96 GiB (24 topics w
         retention.ms: "1800000" # 30min
         segment.ms: "300000"    # 5mn
     provisioning: {}
+    tpsvc-salesforce-contact:
+      topic_options:
+        retention.ms: "3600000" # 1H
+        segment.ms: "300000"    # 5mn
     rating-changed:
       topic_options:
         retention.ms: "3600000" # 1H
@@ -250,6 +254,10 @@ kafka_applications_cluster_simple:   # estimated max data size: 30 GiB (24 topic
         retention.ms: "1800000" # 30min
         segment.ms: "300000"    # 5mn
     provisioning: {}
+    tpsvc-salesforce-contact:
+      topic_options:
+        retention.ms: "3600000" # 1H
+        segment.ms: "300000"    # 5mn
     rating-changed:
       topic_options:
         retention.ms: "3600000" # 1H
