@@ -1,14 +1,16 @@
+# Template method for ossec file download
+
 define profile::common::download_file(
-    $site="undef",
-    $cwd="undef",
-    $creates="undef",
-    $user="undef") {
+    $site='undef',
+    $cwd='undef',
+    $creates='undef',
+    $user='undef') {
 
     exec { $name:
       command => "/usr/bin/wget ${site}/${name}",
-      cwd => $cwd,
+      cwd     => $cwd,
       creates => "${cwd}/${name}",
       require => $require,
-      user => $user,
+      user    => $user,
       }
     }

@@ -6,8 +6,8 @@ nginx::package_ensure: '1.12.1-1.el7.ngx'
 
 common_packages:
   'rake':
-    ensure: '12.3.3'
-    provider: 'gem'
+     ensure: '12.3.3'
+     provider: 'gem'
   'hiera-eyaml':
     ensure: 'installed'
     provider: 'gem'
@@ -53,8 +53,8 @@ cloudwatchlog_files:
     path: '/var/log/secure'
   "/talend/tic/%{::main_stack}/%{::puppet_role}/var/log/audit/audit.log":
     path: '/var/log/audit/audit.log'
-  "/talend/tic/%{::main_stack}/%{::puppet_role}/var/ossec/log/alerts.json":
-    path: '/var/ossec/log/alerts.json'
+  "/talend/tic/%{::main_stack}/%{::puppet_role}/var/ossec/log/alerts/alerts.json":
+    path: '/var/ossec/log/alerts/alerts.json'
     datetime_format: '%s'
 
 profile::web::tomcat::catalina_base: '/opt/apache-tomcat/tomcat'
