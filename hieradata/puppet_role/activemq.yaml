@@ -71,4 +71,8 @@ limits::fragment:
      value: '102400'
   "activemq/hard/nofile":
      value: '102400'
+  "nginx/soft/nofile":
+     value: '102400'
+  "nginx/hard/nofile":
+     value: '102400'
 
