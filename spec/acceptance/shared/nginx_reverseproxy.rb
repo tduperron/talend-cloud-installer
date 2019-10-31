@@ -25,12 +25,12 @@ shared_examples 'profile::nginx_reverseproxy' do
   end
 
   describe 'Prepares a 100KB payload' do
-    subject { command('dd if=/dev/zero of=/tmp/100K.dump bs=100K count=1') }
+    subject { command('/usr/bin/dd if=/dev/zero of=/tmp/100K.dump bs=100K count=1') }
     its(:exit_status) { should eq 0 }
   end
 
   describe 'Prepares a 100MB payload' do
-    subject { command('dd if=/dev/zero of=/tmp/100M.dump bs=100M count=1') }
+    subject { command('/usr/bin/dd if=/dev/zero of=/tmp/100M.dump bs=100M count=1') }
     its(:exit_status) { should eq 0 }
   end
 
