@@ -5,7 +5,7 @@
 #
 class profile::nginx_amq_reverseproxy (
 
-  $client_max_body_size = '200k',
+  $client_max_body_size = '50M',
 
 ){
 

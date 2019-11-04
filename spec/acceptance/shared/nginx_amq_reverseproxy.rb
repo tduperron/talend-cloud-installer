@@ -17,7 +17,7 @@ shared_examples 'profile::nginx_amq_reverseproxy' do
   end
 
   describe file('/etc/nginx/nginx.conf') do
-    its(:content) { should match /client_max_body_size\s+50m;/ }
+    its(:content) { should match /client_max_body_size\s+200k;/ }
   end
 
   describe file('/etc/nginx/sites-enabled/jetty.conf') do
@@ -29,8 +29,8 @@ shared_examples 'profile::nginx_amq_reverseproxy' do
     its(:exit_status) { should eq 0 }
   end
 
-  describe 'Prepares a 100MB payload' do
-    subject { command('/usr/bin/dd if=/dev/zero of=/tmp/100M.dump bs=100M count=1') }
+  describe 'Prepares a 300KB payload' do
+    subject { command('/usr/bin/dd if=/dev/zero of=/tmp/300K.dump bs=300K count=1') }
     its(:exit_status) { should eq 0 }
   end
 
@@ -39,8 +39,8 @@ shared_examples 'profile::nginx_amq_reverseproxy' do
     its(:stdout) { should eq '500' }
   end
 
-  describe 'Expects an error 413 by requesting 100MB payload' do
-    subject { command('/usr/bin/curl -s -o /dev/null -w "%{http_code}" --data-binary @/tmp/100M.dump http://localhost/') }
+  describe 'Expects an error 413 by requesting 300KB payload' do
+    subject { command('/usr/bin/curl -s -o /dev/null -w "%{http_code}" --data-binary @/tmp/300K.dump http://localhost/') }
     its(:stdout) { should eq '413' }
   end
 
