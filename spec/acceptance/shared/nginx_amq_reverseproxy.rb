@@ -1,6 +1,6 @@
-shared_examples 'profile::nginx_reverseproxy' do
+shared_examples 'profile::nginx_amq_reverseproxy' do
 
-  it_behaves_like 'profile::defined', 'nginx_reverseproxy'
+  it_behaves_like 'profile::defined', 'nginx_amq_reverseproxy'
   it_behaves_like 'profile::common::packagecloud_repos'
 
   describe service('nginx') do

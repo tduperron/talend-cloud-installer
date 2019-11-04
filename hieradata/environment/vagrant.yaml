@@ -159,4 +159,4 @@ profile::docker::registry::registries:
     password: 'my_password'
 
 profile::nexus::nexus_mem_check::enabled: true
-profile::nginx_reverseproxy::client_max_body_size: 50m
+profile::nginx_amq_reverseproxy::client_max_body_size: 50m

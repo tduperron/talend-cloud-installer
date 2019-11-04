@@ -3,13 +3,13 @@
 #
 # Setup a proxypass to ActiveMQ filtering messages by size
 #
-class profile::nginx_reverseproxy (
+class profile::nginx_amq_reverseproxy (
 
   $client_max_body_size = '200k',
 
 ){
 
-  profile::register_profile{ 'nginx_reverseproxy': }
+  profile::register_profile{ 'nginx_amq_reverseproxy': }
 
   class { 'nginx':
     client_body_buffer_size => false,
