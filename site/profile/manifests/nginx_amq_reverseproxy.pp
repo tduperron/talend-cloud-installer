@@ -28,7 +28,7 @@ class profile::nginx_amq_reverseproxy (
     types_hash_max_size     => 2048,
     worker_connections      => 8192,
     worker_processes        => 'auto',
-    worker_rlimit_nofile    => 102400,
+    worker_rlimit_nofile    => 102000,
   }
 
   nginx::resource::vhost { 'jetty':
