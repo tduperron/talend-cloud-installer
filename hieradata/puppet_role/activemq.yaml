@@ -65,6 +65,8 @@ profile::postgresql::roles:
 cloudwatchlog_files:
   "/talend/tic/%{::main_stack}/%{::puppet_role}/opt/activemq/data/activemq.log":
     path: '/opt/activemq/data/activemq.log'
+  "/talend/tic/%{::main_stack}/%{::puppet_role}/var/log/nginx/jetty.error.log":
+    path: '/var/log/nginx/jetty.error.log'
 
 limits::fragment:
   "activemq/soft/nofile":

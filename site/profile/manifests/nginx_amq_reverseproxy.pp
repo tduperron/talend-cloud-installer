@@ -36,7 +36,8 @@ class profile::nginx_amq_reverseproxy (
     proxy          => 'http://localhost:8080',
     server_name    => ['_'],
     listen_options => 'default_server',
-    index_files    => []
+    index_files    => [],
+    access_log     => '/dev/null'
   }
 
 }
