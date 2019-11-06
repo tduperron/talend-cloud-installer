@@ -1,0 +1,33 @@
+# MANAGED BY PUPPET
+user nginx;
+worker_processes auto;
+worker_rlimit_nofile 102400;
+
+pid        /var/run/nginx.pid;
+error_log  /var/log/nginx/error.log error;
+
+
+events {
+  accept_mutex on;
+  accept_mutex_delay 500ms;
+  worker_connections 8192;
+}
+
+
+http {
+  include       /etc/nginx/mime.types;
+  default_type  application/octet-stream;
+
+  access_log    /var/log/nginx/access.log;
+
+  sendfile      on;
+  tcp_nopush    on;
+
+  keepalive_timeout  65;
+  tcp_nodelay        on;
+
+  client_max_body_size    <%= client_max_body_size %>;
+
+  include /etc/nginx/conf.d/*.conf;
+  include /etc/nginx/sites-enabled/*;
+}

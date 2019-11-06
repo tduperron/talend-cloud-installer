@@ -30,6 +30,7 @@ shared_examples 'profile::activemq' do
   end
 
   describe file('/opt/activemq/conf/jetty-server.xml') do
+    its(:content) { should include '<Set name="minThreads">10</Set>' }
     its(:content) { should include '<Set name="maxThreads">3000</Set>' }
   end
 

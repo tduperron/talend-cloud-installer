@@ -28,6 +28,7 @@ activemq::persistence_pg_password: "%{::master_password}"
 activemq::dispatcher_response_queue: "ipaas.talend.dispatcher.response.queue"
 activemq::inactive_timeout_before_cleanup: 60000
 activemq::ams_security_version: '%{::ams_plugin_version}'
+activemq::jetty_server_min_threads: 10
 activemq::jetty_server_max_threads: 3000
 
 monitoring::jmx_exporter::jmx_exporter_service: 'activemq'
