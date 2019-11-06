@@ -29,6 +29,11 @@ shared_examples 'profile::activemq' do
     its(:content) { should include '<queue physicalName="ipaas.talend.dispatcher.response.queue"/>' }
   end
 
+  describe file('/opt/activemq/conf/jetty-server.xml') do
+    its(:content) { should include '<Set name="minThreads">10</Set>' }
+    its(:content) { should include '<Set name="maxThreads">3000</Set>' }
+  end
+
   describe 'ActiveMQ optimization version table' do
     subject { command('PGPASSWORD=mypassword /usr/bin/psql -q -h localhost -U activemq -d activemq -c "select MAX(version) from tmp_activemq_optimizations where filename = \'postgresql_optimizations.sql\';"') }
     its(:stdout) { should include '0.1' }
