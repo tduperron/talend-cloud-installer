@@ -44,4 +44,8 @@ shared_examples 'profile::nginx_amq_reverseproxy' do
     its(:stdout) { should eq '413' }
   end
 
+  describe file('/var/log/nginx/jetty.error.log') do
+    its(:content) { should include 'client intended to send too large body' }
+  end
+
 end
