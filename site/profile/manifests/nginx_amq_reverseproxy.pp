@@ -20,7 +20,7 @@ class profile::nginx_amq_reverseproxy (
     keepalive_timeout       => 65,
     proxy_buffers           => undef,
     proxy_buffer_size       => undef,
-    proxy_connect_timeout   => '10s',
+    proxy_connect_timeout   => '60s',
     proxy_read_timeout      => '60s',
     proxy_redirect          => 'off',
     proxy_send_timeout      => '35s',
@@ -33,7 +33,7 @@ class profile::nginx_amq_reverseproxy (
 
   nginx::resource::vhost { 'jetty':
     listen_port    => 80,
-    proxy          => 'http://localhost:8080',
+    proxy          => 'http://127.0.0.1:8080',
     server_name    => ['_'],
     listen_options => 'default_server',
     index_files    => [],
