@@ -188,6 +188,11 @@ kafka_applications_cluster_ha: # estimated max cluster size: 96 GiB (24 topics w
         retention.bytes: "536870912" # 512 MiB per partition => 12GiB per cluster
         retention.ms: "648000000"    # 7.5d
         segment.ms: "3600000"        # 1h
+    tsd-semantic-notification:
+      topic_options:
+        retention.bytes: "268435456" # 256 MiB per partition => 6GiB per cluster
+        retention.ms: "86400000"    # 1d
+        segment.ms: "300000"        # 5mn
     tmc-live-updates:
       topic_options:
         retention.ms: "900000"   # 15mn
@@ -290,6 +295,11 @@ kafka_applications_cluster_simple:   # estimated max data size: 30 GiB (24 topic
         retention.bytes: "2684354560" # 2,5GiB => 5GiB per topic
         retention.ms: "648000000" # 7.5d
         segment.ms: "3600000"     # 1h
+    tsd-semantic-notification:
+      topic_options:
+        retention.bytes: "268435456" # 256 MiB per partition => 6GiB per cluster
+        retention.ms: "86400000"    # 1d
+        segment.ms: "300000"        # 5mn
     tmc-live-updates:
       topic_options:
         retention.ms: "900000"   # 15mn
