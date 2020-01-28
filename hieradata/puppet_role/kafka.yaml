@@ -90,7 +90,7 @@ kafka_customers_logs_cluster_ha: # estimated max cluster size: 308 GiB + custome
         max.message.bytes: "104857600"  # 100 MiB, align with ActiveMQ max message size
         segment.ms: "300000"            # 5mn
 
-kafka_applications_cluster_ha: # estimated max cluster size: 96 GiB (24 topics with default -3 GiB-  + 3 with custom size) + customers offsets  => 55 GiB per node with security
+kafka_applications_cluster_ha: # estimated max cluster size: 102 GiB (24 topics with default -3 GiB-  + 4 with custom size) + customers offsets  => 55 GiB per node with security
   kafka_topics_default_partitions: 12
   kafka_topics_default_replication: 2
   log_level: 'INFO'
@@ -198,7 +198,7 @@ kafka_applications_cluster_ha: # estimated max cluster size: 96 GiB (24 topics w
         retention.ms: "900000"   # 15mn
         segment.ms: "300000"    # 5mn
 
-kafka_applications_cluster_simple:   # estimated max data size: 30 GiB (24 topics with default + 3 with custom size) + customer_offsets
+kafka_applications_cluster_simple:   # estimated max data size: 30,5 GiB (24 topics with default + 4 with custom size) + customer_offsets
   kafka_topics_default_partitions: 2
   kafka_topics_default_replication: 1
   kafka_broker_config:
@@ -297,7 +297,7 @@ kafka_applications_cluster_simple:   # estimated max data size: 30 GiB (24 topic
         segment.ms: "3600000"     # 1h
     tsd-semantic-notification:
       topic_options:
-        retention.bytes: "268435456" # 256 MiB per partition => 6GiB per cluster
+        retention.bytes: "268435456" # 256 MiB per partition => 512 MiB per cluster
         retention.ms: "86400000"    # 1d
         segment.ms: "300000"        # 5mn
     tmc-live-updates:
